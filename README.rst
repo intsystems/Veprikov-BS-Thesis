@@ -18,13 +18,13 @@
     :Название исследуемой задачи: Анализ динамики многократного обучения
     :Тип научной работы: M1P
     :Автор: Вериков Андрей Сергеевич
-    :Научный руководитель: степень, Фамилия Имя Отчество
-    :Научный консультант(при наличии): степень, Фамилия Имя Отчество
+    :Научный руководитель: кандидат ф-м наук, Хританков Антон Сергеевич
+    :Научный консультант(при наличии): доктор ф-м наук, Афанасьев Александр Петрович
 
 Abstract
 ========
 
-Purus sit amet luctus venenatis lectus magna fringilla. Condimentum id venenatis a condimentum vitae sapien. Auctor neque vitae tempus quam pellentesque nec nam aliquam. Eget egestas purus viverra accumsan in. Nam aliquam sem et tortor. Donec et odio pellentesque diam volutpat commodo. Odio pellentesque diam volutpat commodo sed egestas. Sit amet dictum sit amet justo. Pellentesque sit amet porttitor eget. Imperdiet sed euismod nisi porta lorem mollis aliquam ut. Quis varius quam quisque id diam vel quam elementum. Ornare lectus sit amet est placerat in. Vulputate dignissim suspendisse in est ante. Elit sed vulputate mi sit amet mauris. Egestas sed tempus urna et pharetra pharetra. Viverra tellus in hac habitasse platea dictumst vestibulum rhoncus.
+In this paper, we explore some aspects of continuous learning artificial intelligence systems as they interact with and influence their environment. For the process of repeatable learning, prediction and updating of the sample, we built a mathematical model and investigated the properties of this process based on the constructed model. We study this problem from the point of view of functional analysis and statistics, we will provide some assumptions and theorems on an algorithm of training a model, forming predictions on a test sample and mixing predictions into a training sample, as a result of which the distribution of features changes. Based on this theorems we will demonstrate our results on several syntetic experiments.
 
 Research publications
 ===============================
