@@ -24,7 +24,7 @@
 Abstract
 ========
 
-In this paper, we explore some aspects of continuous learning artificial intelligence systems as they interact with and influence their environment. For the process of repeatable learning, prediction and updating of the sample, we built a mathematical model and investigated the properties of this process based on the constructed model. We study this problem from the point of view of functional analysis and statistics, we will provide some assumptions and theorems on an algorithm of training a model, forming predictions on a test sample and mixing predictions into a training sample, as a result of which the distribution of features changes. Based on this theorems we will demonstrate our results on several syntetic experiments.
+In this paper, we explore some aspects of continuous learning artificial intelligence systems as they interact with and influence their environment. For the process of repeatable learning, prediction and updating of the sample, we built a mathematical model and investigated the properties of this process based on the constructed model. We study this problem from the point of view of functional analysis and statistics, we will provide some assumptions and theorems on an algorithm of training a model, forming predictions on a test sample and mixing predictions into a training sample, as a result of which the distribution of features changes. Based on this theorems we will demonstrate our results on several synthetic experiments.
 
 Research publications
 ===============================
