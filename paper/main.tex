@@ -1,0 +1,124 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc} % allow utf-8 input
+\usepackage[main=english,russian]{babel}	
+\usepackage{arxiv}
+
+\usepackage[T1]{fontenc}    % use 8-bit T1 fonts
+\usepackage{hyperref}       % hyperlinks
+\usepackage{url}            % simple URL typesetting
+\usepackage{booktabs}       % professional-quality tables
+\usepackage{amsfonts}       % blackboard math symbols
+\usepackage{nicefrac}       % compact symbols for 1/2, etc.
+\usepackage{microtype}      % microtypography
+\usepackage{lipsum}         % Can be removed after putting your text content
+\usepackage{graphicx}
+\usepackage{natbib}
+\usepackage{doi}
+\usepackage{amsmath}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\newtheorem{theorem}{Theorem}
+
+\title{On the problem of repeated supervised learning}
+
+%\date{September 9, 1985}	% Here you can change the date presented in the paper title
+%\date{} 					% Or removing it
+
+\author{
+    Andrey S. Veprikov\\
+	Department of Intelligent Systems\\
+	MIPT\\
+	Dolgoprudny, Russia \\
+	\texttt{veprikov.as@phystech.edu} 
+    \And
+    Anton S. Kritanlov\\
+    HSE University\\
+    Moscow, Russia\\
+    \texttt{akhritankov@hse.ru}\\
+    \And
+    Alexander P. Afanasyev \\
+    IITP\\
+    Moscow, Russia}
+
+\date{}
+
+% Uncomment to override  the `A preprint' in the header
+%\renewcommand{\headeright}{Technical Report}
+%\renewcommand{\undertitle}{Technical Report}
+\renewcommand{\shorttitle}{On the problem of repeated supervised learning}
+
+%%% Add PDF metadata to help others organize their library
+%%% Once the PDF is generated, you can check the metadata with
+%%% $ pdfinfo template.pdf
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+
+    In this paper, we explore some aspects of continuous learning artificial intelligence systems as they interact with and influence their environment. For the process of repeated and multiple learning, prediction and updating of the sample, we built a mathematical model and investigated the properties of this process based on the constructed model. We consider this problem in a novel (as far as we know) sense: from the point of view of functional analysis and probability theory. Based on our results we will make several synthetic experiments.
+
+\end{abstract}
+
+
+% keywords can be removed
+\keywords{Machine learning \and Continuous machine learning \and Repeated learning}
+
+\section{Introduction} \label{Introduction}
+
+    In this paper we consider the problem of repeated supervised learning \begin{otherlanguage}{russian}(многократное машинное обучение)\end{otherlanguage}, in which the training sample is not fixed, but is updated depending on the predictions of the trained model on the test sample \cite{ma2020machine, khritankov2021existence, jiang2019degenerate}. This problem is widespread in many areas of machine learning and artificial intelligence, but there is still no complete theoretical description of this method of model learning, and we have tried to correct this in this paper. For example repeated supervised learning appears in recommendation systems \cite{khritankov2021existence, sinha2016deconvolving}, healthcare \cite{adam2020hidden} and predictive policing \cite{ensign2018runaway}. Our main goal was to consider the problem of multiple machine learning from a theoretical point of view, using probability theory, statistics and functional analysis. 
+
+    The object of our research will be the set $\mathbf{R}$ of distribution density functions
+
+    \begin{equation}
+        \label{R}
+        \mathbf{R} := \left\{f : \mathbb{R}^n \rightarrow \mathbb{R}_+ ~\text{and}~ \int\limits_{\mathbb{R}^n}f(x)dx = 1\right\},
+    \end{equation}
+
+    and a mapping $\text{D}$, a feedback loop mapping, that includes training a model, forming predictions on a test sample and mixing predictions into a training sample, as a result of which the distribution of features changes.
+
+    A range of problems, that we are considering in this paper are conditions under which $\text{D}$ translates $\mathbf{R}$ into $\mathbf{R}$, conditions when $\text{D}$ is a contraction mapping and its fixed point existence conditions.
+
+    Main contributions of this paper are as follows. In Section \ref{Related_work} we will make a literature review of our problem (which will not be particularly large, since the problem we are considering is quite new). In Section \ref{Problem_statement} we will build a mathematical model for the process of multiple learning, prediction and updating of the sample and outline the main questions, the answers to which we will explore in Section \ref{Main_results}. In Section \ref{Main_results} we will formulate several theorems (sufficient conditions) for the mapping $\text{D}$, which are novel to the literature (as far as we know). In Section \ref{Experiments}, based on the results from Section \ref{Main_results} we will provide some synthetic experiments.
+
+\section{Related work} \label{Related_work}    
+
+    The problem we study is somewhat related to the feedback loops \cite{khritankov2021hidden, khritankov2021existence} -- an observable change in the distribution of input data that occurs over time, because of user interaction with the system. According to Conjecture 1 from \cite{khritankov2021hidden} the positive feedback loop in a system $\text{D} : R \rightarrow R$ exists if $\text{D}$ is a contraction mapping, but this conjecture was not proved.
+
+    Also our problem is connected with dynamical systems, which are studied in \cite{katok1995introduction, nemytskii2015qualitative}, but all these books consider continuous time, and in our work it should be discrete.
+
+    Some authors analyzed Markov processes from the point of view of dynamical systems \cite{tarlowski2017global, vershik2005does}, but in Markov chain the future of the process does not depend on the past, but in repeated supervised learning that's not so. Other authors \cite{varvenne2019rate, pap1996fixed} studied stochastic dynamics systems in general.
+
+    All theoretical results on probability theory were taken from the book \cite{shiryaev2016probability}, on functional analysis the main sources were \cite{kolmogorov1957elements, rudin1991functional}, the results on the theory of measure and the Lebesgue integral were taken from \cite{rudin2006real}.
+
+\section{Problem statement} \label{Problem_statement}
+
+    We consider $\mathbf{R}$ \eqref{R} -- the set of distribution density functions and a mapping $\text{D}$ representing an algorithm for training a model, forming predictions on a test sample and mixing predictions into a training sample, as a result of which the distribution of features changes.
+
+    Let's consider an autonomous (time-independent explicitly) discrete dynamical system (there is a dedicated variable - the step number, which increases), at step $t$ and $t+1$ of which the ratio is fulfilled
+
+    \begin{equation*}
+        f_{t+1}(x) = \text{D}(f_t)(x), \quad \text{for}~ \forall x \in \mathbb{R}^n
+    \end{equation*}
+
+    where $\text{D}$ becomes an evolution operator on the space of the specified functions $f$ and the initial function $f_0(x)$ is known. Generally speaking, $\text{D}$ can be an arbitrary mapping, not necessarily smooth or continuous.
+
+    In this paper we consider the following research questions:
+
+    \begin{enumerate}
+        \item[\textbf{1.}]  What are the conditions so that the mapping $\text{D}$ becomes a transformation? 
+
+        \item[\textbf{2.}] Under what conditions the mapping $\text{D}$ is  a contraction mapping?
+
+        \item[\textbf{3.}] Under what conditions the mapping $\text{D}$ has a fixed point?
+    \end{enumerate}
+
+
+\section{Main results} \label{Main_results}
+
+\section{Experiments} \label{Experiments}
+
+\bibliographystyle{plain}
+\bibliography{refs}  
+
+\end{document}
