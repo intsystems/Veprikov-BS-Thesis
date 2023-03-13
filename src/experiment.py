@@ -1,3 +1,4 @@
+import pandas as pd
 from sklearn import datasets
 import numpy as np
 from matplotlib import pyplot as plt
@@ -305,9 +306,15 @@ class HiddenLoopExperiment:
                 self.eval_m(self.gbr, self.X_orig_tst, self.y_orig_tst, self.mae_orig, self.r2_orig)
                 self.eval_m(self.gbr, self.X_new, self.y_new, self.mae_new, self.r2_new)
             if i % int(self.step_hist) == 0:
-                self.make_hist(step=i, path=self.path)
+                data = pd.DataFrame()
+                data["y_tr"] = self.y_tr
+                data["y_tr_pred"] = self.gbr.predict(self.X_tr)
+                data["y_tst"] = self.y_tst
+                data["y_tst_pred"] = self.gbr.predict(self.X_tst)
+                data.to_csv(f"{self.path}/hists/{self.model_name}-hist_step_{step}.csv")
+                self.make_hist(step=i)
 
-    def make_hist(self, step, path):
+    def make_hist(self, step):
         # #############################################################################
         # Plot 2 density functions (train and test)
 
@@ -322,7 +329,7 @@ class HiddenLoopExperiment:
         sb.displot({"train": self.y_tr - pred_tr,
                     "test": self.y_tst - pred_tst},
                    kind="kde", common_norm=False)
-        plt.savefig(f"{path}/hists/{self.model_name}-hist_step_{step}.png")
+        plt.savefig(f"{self.path}/hists/{self.model_name}-hist_step_{step}.png")
 
 
 class MultipleResults:
