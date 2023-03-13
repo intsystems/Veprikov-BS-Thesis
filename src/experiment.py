@@ -307,11 +307,10 @@ class HiddenLoopExperiment:
                 self.eval_m(self.gbr, self.X_new, self.y_new, self.mae_new, self.r2_new)
             if i % int(self.step_hist) == 0:
                 data = pd.DataFrame()
-                data["y_tr"] = self.y_tr
-                data["y_tr_pred"] = self.gbr.predict(self.X_tr)
-                data["y_tst"] = self.y_tst
-                data["y_tst_pred"] = self.gbr.predict(self.X_tst)
-                data.to_csv(f"{self.path}/hists/{self.model_name}-hist_step_{step}.csv")
+                data["y"] = self.y_curr
+                data["y_pred"] = self.gbr.predict(self.X_curr)
+                data.to_csv(f"{self.path}/deviations/{self.model_name}-dev_step_{i}.csv",
+                            index=False)
                 self.make_hist(step=i)
 
     def make_hist(self, step):

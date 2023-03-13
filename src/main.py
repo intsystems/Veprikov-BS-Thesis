@@ -79,7 +79,7 @@ if __name__ == "__main__":
     parser.add_argument("--run_times", type=int,
                         help="How many time to repeat the trial", default=1)
     parser.add_argument("--data", type=str, help="What data to use", default='synthetic')
-    parser.add_argument("--step_hist", type=str,
+    parser.add_argument("--step_hist", type=int,
                         help="After how many steps make a histogram", default=100)
     args = parser.parse_args()
     model_str = args.model_params
@@ -92,6 +92,7 @@ if __name__ == "__main__":
     step_hist = args.step_hist
     os.makedirs(folder, exist_ok=True)
     os.makedirs(folder+"/hists", exist_ok=True)
+    os.makedirs(folder + "/deviations", exist_ok=True)
 
     model_dict = json.loads(model_str)
     params_dict = json.loads(params_str)
