@@ -1,0 +1,82 @@
+# See paper for experiment description
+
+default_model: &default_params
+#  gbr_model:
+#    n_estimators: 150
+#    max_depth: 3
+#    criterion: 'mae'
+#    loss: 'huber'  
+  ridge_model: {}
+
+
+single_model: &single_model !BasicStage
+  name: single_model
+  params:
+    needs_dvc: false
+    model_params:
+      <<: *default_params
+    experiment:
+      train_size: 0.3
+  outputs:
+    - !path
+      path: "./results/single_model"
+  script:
+    - >
+        python ./src/main.py single-model \
+               --model_params "${json(self.params.model_params)}" \
+               --params "${json(self.params.experiment)}" \
+               --folder "${self.outputs[0].path}" \
+               --random_seed 42 \
+               --run_times 10 \
+               --data "synthetic" \
+               --step_hist 100
+    - >
+      echo "${json(self.params)}" > "${self.outputs[0].path}/params.json"
+
+hidden_loops: &hidden_loops !BasicStage
+  name: hidden_loops
+  params:
+    needs_dvc: false
+    model_params:
+      <<: *default_params
+    experiment:
+      adherence: 0.2
+      usage: 0.7
+      step: 20
+  outputs:
+    - !path
+      path: !line |
+        ./results/hidden_loops/
+        ${self.params.experiment.adherence}-
+        ${self.params.experiment.usage}-
+        ${self.params.experiment.step}
+  script:
+    - >
+      python ./src/main.py hidden-loop \
+                     --model_params "${json(self.params.model_params)}" \
+                     --params "${json(self.params.experiment)}" \
+                     --folder "${self.outputs[0].path}" \
+                     --random_seed 42 \
+                     --run_times 10 \
+                     --data "synthetic" \
+                     --step_hist 100
+    - >
+      echo "${json(self.params)}" > "${self.outputs[0].path}/params.json"
+
+pipeline: !GenericPipeline
+  runs:
+    - *single_model
+    - *hidden_loops
+
+run_experiment: !GenericPipeline
+  runs:
+    - !BasicStage
+      <<: *hidden_loops
+      params:
+        needs_dvc: false
+        model_params:
+          <<: *default_params
+        experiment:
+          adherence: ${env.adherence}
+          usage: ${env.usage}
+          step: ${env.step}
