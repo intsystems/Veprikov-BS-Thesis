@@ -91,8 +91,6 @@ if __name__ == "__main__":
     data_type = args.data
     step_hist = args.step_hist
     os.makedirs(folder, exist_ok=True)
-    os.makedirs(folder+"/hists", exist_ok=True)
-    os.makedirs(folder + "/deviations", exist_ok=True)
 
     model_dict = json.loads(model_str)
     params_dict = json.loads(params_str)
@@ -102,6 +100,8 @@ if __name__ == "__main__":
     if kind == "single-model":
         single_model(model_dict, params_dict)
     elif kind == "hidden-loop":
+        os.makedirs(folder+"/hists", exist_ok=True)
+        os.makedirs(folder + "/deviations", exist_ok=True)
         hidden_loop(model_dict, params_dict)
     else:
         parser.error("Unknown experiment kind: " + kind)

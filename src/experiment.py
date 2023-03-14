@@ -39,6 +39,7 @@ def ridge_model(**kwargs):
     :param kwargs: parameters for `RidgeCV`
     :return: an instance of `Pipeline`
     """
+
     return Pipeline([['scaler', StandardScaler()], ['ridgecv', RidgeCV(**kwargs)]])
 
 
@@ -58,7 +59,7 @@ def get_synthetic_dataset():
     :return: X, y
     """
     # get dataset
-    X, y = datasets.make_regression(n_samples=2000, n_targets=1, noise=0.5, n_features=10)
+    X, y = datasets.make_regression(n_samples=2000, n_targets=1, noise=0., n_features=10)
     return X, y
 
 
@@ -240,6 +241,7 @@ class HiddenLoopExperiment:
             if np.random.random() <= float(usage):
                 pred = self.gbr.predict([X[sample]])
                 new_price = np.random.normal(pred, self.m*float(adherence))[0]
+                #new_price = pred[0]
             else:
                 new_price = y[sample]
 
@@ -279,6 +281,7 @@ class HiddenLoopExperiment:
         self.gbr.fit(self.X_tr, self.y_tr)
        
         self.m, self.r = self.eval_m(self.gbr, self.X_tst, self.y_tst, self.mae, self.r2)
+
         m_b, r_b = self.eval_m(self.gbr_base, self.X_tst, self.y_tst)
 
         self.eval_m(self.gbr, self.X_orig_tst, self.y_orig_tst, self.mae_orig, self.r2_orig)
@@ -301,6 +304,8 @@ class HiddenLoopExperiment:
                 self.gbr.fit(self.X_tr, self.y_tr)
 
                 self.m, self.r = self.eval_m(self.gbr, self.X_tst, self.y_tst, self.mae, self.r2)
+
+                print(self.m)
                 m_b, r_b = self.eval_m(self.gbr_base, self.X_tst, self.y_tst)
 
                 self.eval_m(self.gbr, self.X_orig_tst, self.y_orig_tst, self.mae_orig, self.r2_orig)
