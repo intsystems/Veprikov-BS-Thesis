@@ -53,13 +53,13 @@ def get_boston_dataset():
     X, y = desc['data'], desc['target']
     return X, y, desc
 
-def get_synthetic_dataset():
+def get_synthetic_dataset(noise):
     """
     Return a syntetic dataset from `scikit-learn`
     :return: X, y
     """
     # get dataset
-    X, y = datasets.make_regression(n_samples=2000, n_targets=1, noise=0., n_features=10)
+    X, y = datasets.make_regression(n_samples=2000, n_targets=1, noise=noise, n_features=10)
     return X, y
 
 
@@ -240,7 +240,7 @@ class HiddenLoopExperiment:
         for sample in np.random.permutation(len(X)):
             if np.random.random() <= float(usage):
                 pred = self.gbr.predict([X[sample]])
-                new_price = np.random.normal(pred, self.m*float(adherence))[0]
+                new_price = np.random.normal(pred, float(adherence))[0]
                 #new_price = pred[0]
             else:
                 new_price = y[sample]
@@ -305,7 +305,6 @@ class HiddenLoopExperiment:
 
                 self.m, self.r = self.eval_m(self.gbr, self.X_tst, self.y_tst, self.mae, self.r2)
 
-                print(self.m)
                 m_b, r_b = self.eval_m(self.gbr_base, self.X_tst, self.y_tst)
 
                 self.eval_m(self.gbr, self.X_orig_tst, self.y_orig_tst, self.mae_orig, self.r2_orig)
@@ -334,6 +333,7 @@ class HiddenLoopExperiment:
                     "test": self.y_tst - pred_tst},
                    kind="kde", common_norm=False)
         plt.savefig(f"{self.path}/hists/{self.model_name}-hist_step_{step}.png")
+        plt.close()
 
 
 class MultipleResults:

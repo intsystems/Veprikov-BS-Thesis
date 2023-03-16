@@ -10,6 +10,7 @@ folder = None
 run_times = None
 random_seed = None
 data_type = None
+noise = None
 
 
 def create_model(model_params):
@@ -39,12 +40,13 @@ def single_model(model_params, params):
             single_model_experiment(X, y, model, model_name=f"{folder}/{trial}/{model_name}", **params)
 
 
-def hidden_loop(model_params, params):
+def hidden_loop(model_params, params, noise):
     print(f"Running hidden-loop experiment with data type %s" % data_type)
+    print(f"adherence = {params['adherence']}, usage = {params['usage']}, noise = {noise}")
     if data_type == 'boston':
         X, y, _ = get_boston_dataset()
     elif data_type == 'synthetic':
-        X, y = get_synthetic_dataset()
+        X, y = get_synthetic_dataset(noise)
     else:
         raise ValueError('Wrong data type!' + data_type)
 
@@ -81,6 +83,8 @@ if __name__ == "__main__":
     parser.add_argument("--data", type=str, help="What data to use", default='synthetic')
     parser.add_argument("--step_hist", type=int,
                         help="After how many steps make a histogram", default=100)
+    parser.add_argument("--noise", type=float,
+                        help="noise in original data", default=1.0)
     args = parser.parse_args()
     model_str = args.model_params
     params_str = args.params
@@ -90,6 +94,7 @@ if __name__ == "__main__":
     run_times = args.run_times
     data_type = args.data
     step_hist = args.step_hist
+    noise = args.noise
     os.makedirs(folder, exist_ok=True)
 
     model_dict = json.loads(model_str)
@@ -101,7 +106,7 @@ if __name__ == "__main__":
         single_model(model_dict, params_dict)
     elif kind == "hidden-loop":
         os.makedirs(folder+"/hists", exist_ok=True)
-        os.makedirs(folder + "/deviations", exist_ok=True)
-        hidden_loop(model_dict, params_dict)
+        os.makedirs(folder+"/deviations", exist_ok=True)
+        hidden_loop(model_dict, params_dict, noise)
     else:
         parser.error("Unknown experiment kind: " + kind)

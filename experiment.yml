@@ -46,7 +46,7 @@ hidden_loops: &hidden_loops !BasicStage
   outputs:
     - !path
       path: !line |
-        ./results/hidden_loops/
+        ./results/hidden_loops_3/
         ${self.params.experiment.adherence}-
         ${self.params.experiment.usage}-
         ${self.params.experiment.step}
@@ -59,7 +59,8 @@ hidden_loops: &hidden_loops !BasicStage
                      --random_seed 42 \
                      --run_times 10 \
                      --data "synthetic" \
-                     --step_hist 100
+                     --step_hist 100 \
+                     --noise 3.0
     - >
       echo "${json(self.params)}" > "${self.outputs[0].path}/params.json"
 
