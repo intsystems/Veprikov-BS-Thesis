@@ -240,7 +240,7 @@ class HiddenLoopExperiment:
         for sample in np.random.permutation(len(X)):
             if np.random.random() <= float(usage):
                 pred = self.gbr.predict([X[sample]])
-                new_price = np.random.normal(pred, float(adherence))[0]
+                new_price = np.random.normal(pred, self.m * float(adherence))[0]
                 #new_price = pred[0]
             else:
                 new_price = y[sample]
@@ -311,8 +311,9 @@ class HiddenLoopExperiment:
                 self.eval_m(self.gbr, self.X_new, self.y_new, self.mae_new, self.r2_new)
             if i % int(self.step_hist) == 0:
                 data = pd.DataFrame()
-                data["y"] = self.y_curr
-                data["y_pred"] = self.gbr.predict(self.X_curr)
+                _, X_tst, _, y_tst = model_selection.train_test_split(self.X_curr, self.y_curr)
+                data["y"] = y_tst
+                data["y_pred"] = self.gbr.predict(X_tst)
                 data.to_csv(f"{self.path}/deviations/{self.model_name}-dev_step_{i}.csv",
                             index=False)
                 self.make_hist(step=i)
