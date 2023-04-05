@@ -33,7 +33,7 @@
 	Dolgoprudny, Russia \\
 	\texttt{veprikov.as@phystech.edu} 
     \And
-    Anton S. Kritanlov\\
+    Anton S. Khritankov\\
     HSE University\\
     Moscow, Russia\\
     \texttt{akhritankov@hse.ru}\\
@@ -322,55 +322,55 @@
     \begin{theorem}[Inequality on $\|\text{D}\|_q$] \label{ineq_q}
         Consider 
         \begin{equation}\label{f_R}
-            f_R(x) = \dfrac{1}{\text{vol}(\mathbb{B}(R))} \cdot \textbf{1}_{\mathbb{B}(R)}(x),
+            f_A(x) = \dfrac{1}{\lambda(A)} \cdot \textbf{1}_{A}(x),
         \end{equation}
 
-        where $\mathbb{B}(R) := \{x \in \mathbb{R}^n ~|~ \|x\|_2 \leq 1\}$ and $\text{vol}(\mathbb{B}(R))$ - the volume of this Euclidean ball.
+        where $A \subset \mathbb{R}^n$ is arbitrary set of a non-path measure, $\lambda(A)$ -- the measure of a set $A$.
 
-        Then for all $R > 0$ and for all $1 \leq q \leq +\infty$ such that $\text{D}(f_R) \in L_q(\mathbb{R}^n)$ is fulfilled that  
+        Then for all $A \subset \mathbb{R}^n :  0 < \lambda(A) < +\infty$ and for all $1 \leq q \leq +\infty$ such that $\text{D}(f_A) \in L_q(\mathbb{R}^n)$ is fulfilled that  
 
         \begin{equation}\label{int_f_R}
-            \|\text{D}\|_q \geq \int\limits_{\mathbb{B}(R)} \text{D}(f_R)(x)dx
+            \|\text{D}\|_q \geq \int\limits_{A} \text{D}(f_A)(x)dx
         \end{equation}
     \end{theorem}
     
     \begin{proof}
-        First of all let's calculate $\|f_R\|_p$:
+        First of all let's calculate $\|f_A\|_p$:
 
         \begin{equation*}
-            \|f_R\|_p = \left(\int\limits_{-\infty}^{+\infty}\left(\dfrac{1}{\text{vol}(\mathbb{B}(R))}\right)^p \cdot \textbf{1}_{\mathbb{B}(R)}(x) dx\right)^{1/p} = \dfrac{1}{\text{vol}(\mathbb{B}(R))} \cdot \text{vol}(\mathbb{B}(R))^{1/p} = \text{vol}(\mathbb{B}(R))^{-1 + 1/p}
+            \|f_A\|_p = \left( \text{ } \int\limits_{\mathbb{R}^n}\left(\dfrac{1}{\lambda(A)}\right)^p \cdot \textbf{1}_{A}(x) dx \text{ } \right)^{1/p} = \dfrac{1}{\lambda(A)} \cdot (\lambda(A))^{1/p} = (\lambda(A))^{-1 + 1/p}
         \end{equation*}
 
-        So, $f_R \in \in L_p(\mathbb{R}^n)$ for all $R > 0$ and $1 \leq p \leq +\infty$. 
+        So, $f_A \in L_p(\mathbb{R}^n)$ for all $A \subset \mathbb{R}^n : 0 < \lambda(A) < +\infty$ and $1 \leq p \leq +\infty$. 
 
         Now write out a Herder's inequality. For $q$ such that $\frac{1}{p} + \frac{1}{q} = 1$ is fulfilled that
 
         \begin{equation*}
-            \|f_R\|_p \cdot \|\text{D}(f_R)\|_q \geq \|f_R \cdot \text{D}(f_R)\|_1
+            \|f_A\|_p \cdot \|\text{D}(f_A)\|_q \geq \|f_A \cdot \text{D}(f_A)\|_1
         \end{equation*}
 
         Using common inequality on operators norm $\|\text{D}(f)\|_q \leq \|\text{D}\|_q \cdot \|f\|_q ~\forall f \in L_q(\mathbb{R}^n)$ we get
 
         \begin{equation*}
-            \|f_R\|_p \|f_R\|_q \cdot \|\text{D}\|_q \geq \|f_R \cdot \text{D}(f_R)\|_1
+            \|f_A\|_p \|f_A\|_q \cdot \|\text{D}\|_q \geq \|f_A \cdot \text{D}(f_R)\|_1
         \end{equation*}
 
-        Since $\|f_R\|_p \|f_R\|_q = \text{vol}(\mathbb{B}(R))^{-1 + 1/p} \cdot \text{vol}(\mathbb{B}(R))^{-1 + 1/q} = \text{vol}(\mathbb{B}(R))^{-2 + 1/p + 1/q} = \text{vol}(\mathbb{B}(R))^{-1}$ we get:
+        Since $\|f_A\|_p \|f_A\|_q = (\lambda(A))^{-1 + 1/p} \cdot (\lambda(A))^{-1 + 1/q} = (\lambda(A))^{-2 + 1/p + 1/q} = (\lambda(A))^{-1}$ we get:
 
         \begin{equation*}
-            \|\text{D}\|_q \geq \text{vol}(\mathbb{B}(R)) \cdot \|f_R \cdot \text{D}(f_R)\|_1
+            \|\text{D}\|_q \geq \lambda(A) \cdot \|f_R \cdot \text{D}(f_A)\|_1
         \end{equation*}
 
-        Let's look at $\|f_R \cdot \text{D}(f_R)\|_1$ in more detail:
+        Let's look at $\|f_A \cdot \text{D}(f_A)\|_1$ in more detail:
 
         \begin{equation*}
-            \|f_R \cdot \text{D}(f_R)\|_1 = \int\limits_{-\infty}^{+\infty} \text{D}(f_R)(x) \cdot \dfrac{1}{\text{vol}(\mathbb{B}(R))} \textbf{1}_{\mathbb{B}(R)}(x) dx = \dfrac{1}{\text{vol}(\mathbb{B}(R))} \int\limits_{\mathbb{B}(R)} \text{D}(f_R)(x)dx
+            \|f_A \cdot \text{D}(f_A)\|_1 = \int\limits_{\mathbb{R}^n} \text{D}(f_A)(x) \cdot \dfrac{1}{\lambda(A)} \textbf{1}_{A}(x) dx = \dfrac{1}{\lambda(A)} \int\limits_{A} \text{D}(f_A)(x)dx
         \end{equation*}
 
         Finally, we get the desired inequality
 
         \begin{equation*}
-            \|\text{D}\|_q \geq \int\limits_{\mathbb{B}(R)} \text{D}(f_R)(x)dx
+            \|\text{D}\|_q \geq \int\limits_{A} \text{D}(f_A)(x)dx
         \end{equation*}
     \end{proof}
         
@@ -379,9 +379,9 @@
 
     To begin with, note that the result of Theorem \ref{ineq_q} does not depend in any way on whether $\text{D}$ converts $\mathbf{R}$ to $\mathbf{R}$, it is a consequence of Herder's inequality. 
     
-    If you look at it from a probabilistic point of view (so now $\text{D} : \mathbf{R} \to \mathbf{R}$), then $f_R$ is a distribution density function of vectors uniformly distributed on a Euclidean sphere $\mathbb{B}(R)$. So, $\int\limits_{\mathbb{B}(R)} \text{D}(f_R)(x)dx \leq 1$, i.e. from Theorem \ref{ineq_q} we can only get that $\|\text{D}\|_q \geq 1$. But if $\|\text{D}\|_q \geq 1$, so $\text{D}$ wouldn't be a contraction mapping in $\|\cdot\|_q$, because there always would be function $f \in \mathbf{R}$ such that $\|\text{D}(f)\|_q \geq \|f\|_q$.
+    If you look at it from a probabilistic point of view (so now $\text{D} : \mathbf{R} \to \mathbf{R}$), then $f_A$ is a distribution density function of vectors uniformly distributed on a set $A$. So, $\int\limits_{A} \text{D}(f_A)(x)dx \leq 1$, i.e. from Theorem \ref{ineq_q} we can only get that $\|\text{D}\|_q \geq 1$. But if $\|\text{D}\|_q \geq 1$, so $\text{D}$ wouldn't be a contraction mapping in $\|\cdot\|_q$, because there always would be function $f \in \mathbf{R}$ such that $\|\text{D}(f)\|_q \geq \|f\|_q$.
 
-    In our experiments we will measure $\hat{F}_t(R)$ and $\hat{F}_t(-R)$. If $1 \in I_{\varepsilon}(\hat{F}_t(R))$ and $0 \in I_{\varepsilon}(\hat{F}_t(-R))$, where $I_{\varepsilon}$ is confidence interval from \eqref{inter}, then we can say that operator $\text{D}$ can't be a contraction mapping.
+    In our experiments we will measure $\hat{F}_t(\sup(A))$ and $\hat{F}_t(\inf(A))$. If $1 \in I_{\varepsilon}[\hat{F}_t(\sup(A))]$ and $0 \in I_{\varepsilon}[\hat{F}_t(\inf(A))]$, where $I_{\varepsilon}$ is confidence interval from \eqref{inter}, then we can say that operator $\text{D}$ can't be a contraction mapping.
 
 \section{Experiments} \label{Experiments}
 
@@ -401,7 +401,7 @@
             \label{ex_set}
         \end{figure}
 
-        In this paper we consider linear model, that is solved as Ridge with mean squared error loss function. In the formulation of our experiment, we consider $\mathbf{R}$ \eqref{R} as space of density functions of random vectors $(\mathbf{x^i}, y_i)$, where $\mathbf{x^i} \in \textbf{X}$ and $y_i \in \textbf{y}$ -- the features and target variable of the $i$-th object. The operator $\text{D}$ transforms $\mathbf{R}$ at each step $t$, and the distribution of features does not change, because at each step we take new $\mathbf{x^i}_t$ from the original set of features $\textbf{X}$, so only the distribution of the target variable changes. So we can use results from Theorem \ref{delta}. 
+        In this paper we consider linear model, that is solved as Ridge regression with mean squared error loss function. In the formulation of our experiment, we consider $\mathbf{R}$ \eqref{R} as space of density functions of random vectors $(\mathbf{x^i}, y_i)$, where $\mathbf{x^i} \in \textbf{X}$ and $y_i \in \textbf{y}$ -- the features and target variable of the $i$-th object. The operator $\text{D}$ transforms $\mathbf{R}$ at each step $t$, and the distribution of features does not change, because at each step we take new $\mathbf{x^i}_t$ from the original set of features $\textbf{X}$, so only the distribution of the target variable changes. So we can use results from Theorem \ref{delta}. 
 
 \newpage
 
