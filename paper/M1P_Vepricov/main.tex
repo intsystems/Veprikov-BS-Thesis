@@ -20,6 +20,7 @@
 \usepackage{amsthm}
 \usepackage{amssymb}
 \newtheorem{theorem}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
 
 \title{On the problem of repeated supervised learning}
 
@@ -318,6 +319,100 @@
         \label{example1_fig}
     \end{figure}
 
+    How we provide several Lemmas based on Theorem \ref{delta}. In In these lemmas we assume that the operator $\text{D}$ has the form
+
+    \begin{equation} \label{cool_D}
+        \text{D}^t(f_0)(x) = \psi(t) \cdot f_0(\psi(t) \cdot x) ~\text{ and }~ \psi(t) \to +\infty
+    \end{equation}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+
+    \begin{lemma}[Conditions on $\{\text{D}^t\}_{t=0}^{+\infty}$ to be a semigroup] \label{semigroup}
+    
+        If $\text{D}$ has the form \eqref{cool_D}, then $\{\text{D}^t\}_{t=0}^{+\infty}$ is a semigroup, i.e. $(\text{D}^{\tau} \circ \text{D}^{\kappa})(f) = \text{D}^{\tau + \kappa}(f) ~\forall \tau, \kappa \in \mathbb{N}$, if and only if 
+
+        \begin{equation} \label{cond_semigroup}
+            \psi(\tau + \kappa) = \psi(\tau) \cdot \psi(\kappa) ~\forall \tau, \kappa \in \mathbb{N}
+        \end{equation}
+        
+    \end{lemma}
+
+    \begin{proof}
+        \begin{equation*}
+            (\text{D}^{\tau} \circ \text{D}^{\kappa})(f)(x) = \text{D}^{\tau}(\psi(\kappa) \cdot f(\psi(\kappa) \cdot x)) = \psi(\tau)\psi(\kappa) \cdot f(\psi(\tau)\psi(\kappa) \cdot x)
+        \end{equation*}
+            
+        \begin{equation*}
+            \text{D}^{\tau + \kappa}(f)(x) = \psi(\tau + \kappa) \cdot f(\psi(\tau + \kappa) \cdot x)
+        \end{equation*}
+        
+        So, $\{\text{D}^t\}_{t=0}^{+\infty}$ is a semigroup $\Leftrightarrow$ $\psi(\tau + \kappa) = \psi(\tau) \cdot \psi(\kappa) ~\forall \tau, \kappa \in \mathbb{N}$
+    \end{proof}
+
+    \begin{lemma}[Decreasing moments] \label{moments}
+        If $\text{D}$ has the form \eqref{cool_D}, then all $k$-th moments of random variable $\|\mathbf{y} - \mathbf{y_{\text{pred}}}\|$ (if they exist) are decreasing with speed $\psi(t)^{-k}$, i.e. $\nu_k^t = \psi(t)^{-k} \nu_k^0$, where $\nu_k^t$ is a $k$-th moment on a step $t$.
+
+        If $~\exists q \in [1; +\infty]$ such $\{\nu_k^0\}_{k=1}^{+\infty} \in l_q$, then $\{\nu_k^t\}_{k=1}^{+\infty} \in l_1$ and $\{\nu_k^t\}_{k=1}^{+\infty} \underset{t \to \infty}{\overset{l_1}{\longrightarrow}} 0$
+    \end{lemma}
+
+    \begin{proof}
+        Let's first prove first term. By the definition of $k$-moment we have
+
+        \begin{equation*}
+            \nu_k^t = \int\limits_{-\infty}^{+\infty} x^k \psi(t) f(\psi(t) x) dx
+        \end{equation*}
+
+        If we make variable substitution $y = \psi(t) x$, when we have
+
+        \begin{equation*}
+            \nu_k^t = \int\limits_{-\infty}^{+\infty} \dfrac{y^k}{\psi(t)^k} f(y) dy = \psi(t)^{-k} \nu_k^0
+        \end{equation*}
+
+        So the first term is proved. Consider the second term.
+
+        \begin{equation*}
+            \|\{\nu_k^t\}_{k=1}^{+\infty}\|_1 = \|\{\psi(t)^{-k} \nu_k^0\}_{k=1}^{+\infty}\|_1 \leq \|\{\psi(t)^{-k}\}_{k=1}^{+\infty}\|_p \cdot \|\{\nu_k^0\}_{k=1}^{+\infty}\|_q
+        \end{equation*}
+
+        The second step follows from Helder's inequality.
+
+        How let's calculate $\|\{\psi(t)^{-k}\}_{k=1}^{+\infty}\|_p$ for $p \in [1; +\infty)$:
+
+        \begin{equation*}
+            \|\{\psi(t)^{-k}\}_{k=1}^{+\infty}\|_p^p = \sum\limits_{k=1}^{+\infty}\psi(t)^{-kp} = \dfrac{\psi(t)^{-p}}{1 - \psi(t)^{-p}} = \dfrac{1}{\psi(t)^p - 1}
+        \end{equation*}
+
+        The first equality is true only if $\psi(t) > 1$ and the second step follows from sum of infinitely decreasing geometric progression.
+
+        So
+
+        \begin{equation*}
+            \|\{\psi(t)^{-k}\}_{k=1}^{+\infty}\|_p = \left( \dfrac{1}{\psi(t)^p - 1} \right)^{1/p} \underset{t \to +\infty}{\longrightarrow} 0 ~~~\forall p \in [1; +\infty)
+        \end{equation*}
+
+        If $p = +\infty$:
+
+        \begin{equation*}
+            \|\{\psi(t)^{-k}\}_{k=1}^{+\infty}\|_{\infty} = \left[ \text{ if } \psi(t) > 1 \right] = \psi(t)^{-1} \underset{t \to +\infty}{\longrightarrow} 0
+        \end{equation*}
+
+        So, we have 
+
+        \begin{equation*}
+            \|\{\nu_k^t\}_{k=1}^{+\infty}\|_1 \leq \|\{\psi(t)^{-k}\}_{k=1}^{+\infty}\|_p \cdot \|\{\nu_k^0\}_{k=1}^{+\infty}\|_q \underset{t \to +\infty}{\longrightarrow} 0
+        \end{equation*}
+
+        Because $\|\{\nu_k^0\}_{k=1}^{+\infty}\|_q < +\infty$ as a condition of Lemma.
+        
+    \end{proof}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+    \textbf{Discussion of Lemmas \ref{semigroup} and \ref{moments}}
+
+    If our system is autonomous, i.e. it does not depend on time, then the operators $\{\text{D}^t\}_{t=0}^{+\infty}$ should form a semigroup, since their application should not depend on the number of step $t$. The condition \eqref{cond_semigroup} means that the function $\psi(t)$ is a power function.
+
+    The Lemma \ref{moments} on moments is interesting from the practical point of view as a condition which is relatively easy to check in the experiment, which we will do in the Section \ref{Experiments}.
     
     \begin{theorem}[Inequality on $\|\text{D}\|_q$] \label{ineq_q}
         Consider 
@@ -343,7 +438,7 @@
 
         So, $f_A \in L_p(\mathbb{R}^n)$ for all $A \subset \mathbb{R}^n : 0 < \lambda(A) < +\infty$ and $1 \leq p \leq +\infty$. 
 
-        Now write out a Herder's inequality. For $q$ such that $\frac{1}{p} + \frac{1}{q} = 1$ is fulfilled that
+        Now write out a Helder's inequality. For $q$ such that $\frac{1}{p} + \frac{1}{q} = 1$ is fulfilled that
 
         \begin{equation*}
             \|f_A\|_p \cdot \|\text{D}(f_A)\|_q \geq \|f_A \cdot \text{D}(f_A)\|_1
@@ -377,7 +472,7 @@
 
     \textbf{Discussion of Theorem \ref{ineq_q}}
 
-    To begin with, note that the result of Theorem \ref{ineq_q} does not depend in any way on whether $\text{D}$ converts $\mathbf{R}$ to $\mathbf{R}$, it is a consequence of Herder's inequality. 
+    To begin with, note that the result of Theorem \ref{ineq_q} does not depend in any way on whether $\text{D}$ converts $\mathbf{R}$ to $\mathbf{R}$, it is a consequence of Helder's inequality. 
     
     If you look at it from a probabilistic point of view (so now $\text{D} : \mathbf{R} \to \mathbf{R}$), then $f_A$ is a distribution density function of vectors uniformly distributed on a set $A$. So, $\int\limits_{A} \text{D}(f_A)(x)dx \leq 1$, i.e. from Theorem \ref{ineq_q} we can only get that $\|\text{D}\|_q \geq 1$. But if $\|\text{D}\|_q \geq 1$, so $\text{D}$ wouldn't be a contraction mapping in $\|\cdot\|_q$, because there always would be function $f \in \mathbf{R}$ such that $\|\text{D}(f)\|_q \geq \|f\|_q$.
 
@@ -386,7 +481,9 @@
 \section{Experiments} \label{Experiments}
 
     \subsection{Experiment Design} \label{design}
-        We consider such a formulation of the problem of repeated supervised learning: there is an original data $\textbf{X}$ and a vector of target variables $\mathbf{y}$. Initially, at round $r = 0$, we select $30\%$ of the original dataset on which our model $H(\mathbf{x}, \theta^0, 0)$ is trained with $80\%$ train size. 
+        We consider \footnotemark such a formulation of the problem of repeated supervised learning: there is an original data $\textbf{X}$ and a vector of target variables $\mathbf{y}$. Initially, at round $r = 0$, we select $30\%$ of the original dataset on which our model $H(\mathbf{x}, \theta^0, 0)$ is trained with $80\%$ train size. 
+
+        \footnotetext{All experiments you can see on our \href{https://github.com/intsystems/2023-Project-119}{GitHub}}
         
         Then at each step $t$ we randomly select an element $(\mathbf{x^i}, y_i)$ -- the features and target variable of the $i$-th object from the original dataset, and this element does not lie in the initial dataset. Next, we get the prediction $y'_i$ of our model on the element $(\mathbf{x^i}, y_i)$: $y_i'=H(\mathbf{x^i}, \mathbf{\theta}^r, t)$ and sample $z_i \sim \mathcal{N}(y_i', s \cdot \sigma^2)$, where $s$ is an experiment parameter that indicates adherence and $\sigma$ is the model's mean squared error on held-out data. Then we remove 1 element from the active dataset and, with the probability of $p$, we add $(\mathbf{x^i}, z_i)$ to it, and with the probability $(1-p)$ we add the element $(\mathbf{x^i}, y_i)$. We carry out this procedure until we run out of elements that were not initially included in our dataset, so, we make a total of $0.7 \cdot n$ steps, where $n$ is the number of objects in $\textbf{X}$.
 
@@ -403,9 +500,7 @@
 
         In this paper we consider linear model, that is solved as Ridge regression with mean squared error loss function. In the formulation of our experiment, we consider $\mathbf{R}$ \eqref{R} as space of density functions of random vectors $(\mathbf{x^i}, y_i)$, where $\mathbf{x^i} \in \textbf{X}$ and $y_i \in \textbf{y}$ -- the features and target variable of the $i$-th object. The operator $\text{D}$ transforms $\mathbf{R}$ at each step $t$, and the distribution of features does not change, because at each step we take new $\mathbf{x^i}_t$ from the original set of features $\textbf{X}$, so only the distribution of the target variable changes. So we can use results from Theorem \ref{delta}. 
 
-\newpage
-
-    \subsection{Experiment results} \label{res}
+    \subsection{First experiment: analysis of deviation} \label{exp_1}
 
         In almost all distributions, decreasing the variance to 0 means that the distribution function takes the form of a delta function, for example in the normal distribution $\mathcal{N}(\mu, \sigma^2)$:
 
@@ -436,7 +531,88 @@
         \end{figure}
 
         As we can see, the picture for the graphs at noise= $0.3, 1, 3$ and $10$ are very similar to each other, they differ only in the deviation values. This is due to the fact that for higher values of noise it becomes more profitable to add new data than to take the original data, since the noises in them are smaller, that is, with increasing \textit{usage} the deviation will fall.
+
+    \newpage
+
+    \subsection{Second Experiment: analysis of $p$-value} \label{exp_2}
+        In this experiment we check our data for belonging to a normal distribution by counting $p$-value from normal test and we also count the mean and variance of the data $\mathbf{y} - \mathbf{y_{\text{pred}}}$ at each step $t$. We take \textit{usage} and \textit{adherence} \ref{ex_set} based on the previous experiment \ref{exp_1}: $1.0$ and $0.0$, $0.6$ and $0.8$, $0.1$ and $0.9$. The results of this experiment are shown in the Figure \ref{fig_exp_2}.
+
+        \begin{figure}[h!]
+            \centering
+            \includegraphics[width=0.49\linewidth]{pictures/mdp_0.1_0.9.png}~~
+            ~~\includegraphics[width=0.49\linewidth]{pictures/mdp_0.6_0.8.png}
+            
+            \includegraphics[width=0.49\linewidth]{pictures/mdp_1_0.png}
+            
+            \caption{Results of experiment \ref{exp_2} \textit{usage} and \textit{adherence} = $0.1$ and $0.9$ (left), $0.6$ and $0.8$ (right), $1.0$ and $0.0$ (bottom).}
+            \label{fig_exp_2}
+        \end{figure}
+
+        As we can see for small \textit{usage} the deviation of out data does not decrease, but $p$-value for all \textit{usage} and \textit{adherence} is bigger than $0.05$, so we can assume that our data are normally distributed at each step $t$.
+
+    \subsection{Third experiment: limit to delta function} \label{exp_3}
+        In this experiment we test the conditions from Theorem \ref{delta}, i.e. we measure $f_t(0)$ and $\int\limits_{-\kappa}^{\kappa}f_t(x)dx = \hat{F}_t(\kappa) - \hat{F}_t(-\kappa)$, where $\kappa$ is sufficiently small. So if $f_t(0) \to +\infty$ and $1 \in I_{\varepsilon}(\hat{F}_t(\kappa) - \hat{F}_t(-\kappa))$, where $I_{\varepsilon}$ is confidence interval from \eqref{inter}, then we can say that operator $\widetilde{\text{D}}$ converge empirical distribution functions $f_t(x)$ of $\|\mathbf{y} - \mathbf{y_{\text{pred}}}\|$ to delta-function. The results of this experiment are shown in the Figure \ref{fig_exp_3}.
+
+        \begin{figure}[h!]
+            \centering
+            \includegraphics[width=0.49\linewidth]{pictures/f_t0_0.1_0.9.png}~~
+            ~~\includegraphics[width=0.49\linewidth]{pictures/f_t0_0.6_0.8.png}
+            
+            \includegraphics[width=0.49\linewidth]{pictures/f_t0_1_0.png}
+            
+            \caption{Results of experiment \ref{exp_3} \textit{usage} and \textit{adherence} = $0.1$ and $0.9$ (left), $0.6$ and $0.8$ (right), $1.0$ and $0.0$ (bottom).}
+            \label{fig_exp_3}
+        \end{figure}
+
+        As we can see, for small values of \textit{usage} and large values of \textit{adherence}, the operator $\widetilde{\text{D}}$ does not translate the distribution density function of $\|\mathbf{y} - \mathbf{y_{\text{pred}}}\|$ to delta-function. When \textit{usage} = 1 and \textit{adherence} = 0 we can observe a tendency towards the delta function at small $t$, and then exit to a plateau. From results of this experiment we can reject the condition $\psi(t) \underset{t \to +\infty}{\longrightarrow} +\infty$ and consider $\psi(t)$ as an arbitrary function that satisfies the inequality \eqref{psi_and_g}, but then there will be no limit to the delta function when.
+
+    \subsection{Fourth experiment: semigroup check} \label{exp_4}
+
+        In this experiment we test our system for autonomy, that is, we test the condition \eqref{cond_semigroup} in the Lemma \ref{semigroup}. As noted in the Discussion of Lemma \ref{semigroup}, in order for the $\psi(t)$ function to satisfy the condition \eqref{cond_semigroup}, it is necessary and sufficient that $\psi(t)$ should be a power function. Therefore, in this experiment we plot $\ln(\psi(t))$, and if we get a straight line, then the system is autonomous, and if not, then no. The $\psi(t)$ function is taken from the Experiment \ref{exp_3}. The results of this experiment are shown in the Figure \ref{fig_exp_4}.
+
+        \begin{figure}[h!]
+            \centering
+            \includegraphics[width=0.49\linewidth]{pictures/semigroup_0.1_0.9.png}~~
+            ~~\includegraphics[width=0.49\linewidth]{pictures/semigroup_0.6_0.8.png}
+            
+            \includegraphics[width=0.49\linewidth]{pictures/semigroup_1_0.png}
+            
+            \caption{Results of experiment \ref{exp_4} \textit{usage} and \textit{adherence} = $0.1$ and $0.9$ (left), $0.6$ and $0.8$ (right), $1.0$ and $0.0$ (bottom).}
+            \label{fig_exp_4}
+        \end{figure}
+
+        As we can see, our system is not autonomous, since none of the graphs is a straight line.
+
+\newpage
+
+    \subsection{Fifth experiment: decreasing in moments} \label{exp_5}
+        In this experiment we test the results from Lemma \ref{moments}. Based on the Experiment \ref{exp_2} we will approximate our distribution by a normal distribution. Based on Wick's theorem, we can explicitly find the values of moments for the normal distribution if its mathematical expectation is 0:
+
+        \begin{equation} \label{normal_moments}
+            \nu_k = \left\{\begin{array}{ll}
+                 0, \text{ if } k = 2n + 1\\
+                 \\
+                 \sigma^k \cdot (k - 1)!!, \text{ if } k = 2n
+            \end{array} \right.
+        \end{equation}
+
+        The results of this experiment are shown in the Figure \ref{fig_exp_5}.
         
+        \begin{figure}[h!]
+            \centering
+            \includegraphics[width=0.49\linewidth]{pictures/moments_0.1_0.9.png}~~
+            ~~\includegraphics[width=0.49\linewidth]{pictures/moments_0.6_0.8.png}
+            
+            \includegraphics[width=0.49\linewidth]{pictures/moments_1_0.png}
+            
+            \caption{Results of experiment \ref{exp_5} \textit{usage} and \textit{adherence} = $0.1$ and $0.9$ (left), $0.6$ and $0.8$ (right), $1.0$ and $0.0$ (bottom).}
+            \label{fig_exp_5}
+        \end{figure}
+
+        The moments decrease to zero only if \textit{usage} and \textit{adherence} = $1$ and $0$, because only with this parameters operator $\text{D}$ transforms density distribution functions of $\|\mathbf{y} - \mathbf{y_{\text{pred}}}\|$ to delta function.
+    
+
+
 \newpage
 
 \bibliographystyle{plain}
