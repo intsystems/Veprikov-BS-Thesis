@@ -241,7 +241,6 @@ class HiddenLoopExperiment:
             if np.random.random() <= float(usage):
                 pred = self.gbr.predict([X[sample]])
                 new_price = np.random.normal(pred, self.m * float(adherence))[0]
-                #new_price = pred[0]
             else:
                 new_price = y[sample]
 
@@ -249,7 +248,7 @@ class HiddenLoopExperiment:
 
     def eval_m(self, model, X, y, mae=None, r2=None):
         gbr_pred = model.predict(X)
-        
+
         mae_v = mean_absolute_error(y, gbr_pred)
         r2_v = r2_score(y, gbr_pred)
         
