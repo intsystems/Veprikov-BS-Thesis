@@ -10,6 +10,7 @@ from sklearn.metrics import mean_squared_error, r2_score, mean_absolute_error
 from sklearn import model_selection
 from sklearn.preprocessing import StandardScaler
 from sklearn.pipeline import Pipeline
+from tqdm import tqdm
 
 import random
 
@@ -171,7 +172,7 @@ class HiddenLoopExperiment:
         'mae_orig': 'MAE, original data'
     }
 
-    def __init__(self, X, y, model, model_name="model", path="./results", step_hist=100):
+    def __init__(self, X, y, model, model_name="model", path="./results", step_hist=100, N=10**4):
         """
         Creates an instance of the experiment
 
@@ -188,6 +189,7 @@ class HiddenLoopExperiment:
         self.model_name = model_name
         self.path = path
         self.step_hist = step_hist
+        self.N = int(N)
 
     def prepare_data(self, train_size=0.3):
         """
@@ -308,6 +310,60 @@ class HiddenLoopExperiment:
 
                 self.eval_m(self.gbr, self.X_orig_tst, self.y_orig_tst, self.mae_orig, self.r2_orig)
                 self.eval_m(self.gbr, self.X_new, self.y_new, self.mae_new, self.r2_new)
+            if i % int(self.step_hist) == 0:
+                data = pd.DataFrame()
+                _, X_tst, _, y_tst = model_selection.train_test_split(self.X_curr, self.y_curr)
+                data["y"] = y_tst
+                data["y_pred"] = self.gbr.predict(X_tst)
+                data.to_csv(f"{self.path}/deviations/{self.model_name}-dev_step_{i}.csv",
+                            index=False)
+                self.make_hist(step=i)
+
+    def hidden_sampling_experiment(self, adherence=0.2, usage=0.1, step=10):
+        self.X_curr = self.X
+        self.y_curr = self.y
+        self.X_tr, self.X_tst, self.y_tr, self.y_tst = model_selection.train_test_split(self.X,
+                                                                                        self.y)
+
+        self.gbr_base = self.model()
+        self.gbr_base.fit(self.X_tr, self.y_tr)
+
+        self.gbr = self.model()
+        self.gbr.fit(self.X_tr, self.y_tr)
+
+        self.m, self.r = self.eval_m(self.gbr, self.X_tst, self.y_tst, self.mae, self.r2)
+
+        m_b, r_b = self.eval_m(self.gbr_base, self.X_tst, self.y_tst)
+
+        #self.eval_m(self.gbr, self.X_orig_tst, self.y_orig_tst, self.mae_orig, self.r2_orig)
+        #self.eval_m(self.gbr, self.X_new, self.y_new, self.mae_new, self.r2_new)
+
+        for i in tqdm(range(1, self.N + 1)):
+            idx = np.random.randint(0, len(self.X_curr))
+            sample = self.X_curr[idx]
+            if np.random.random() <= float(usage):
+                pred = self.gbr.predict([sample])
+                new_price = np.random.normal(pred, self.m * float(adherence))[0]
+            else:
+                new_price = self.y_curr[idx]
+
+            self.y_curr[idx] = new_price
+
+            if i % int(step) == 0:
+                self.X_tr, self.X_tst, \
+                self.y_tr, self.y_tst = model_selection.train_test_split(self.X_curr, self.y_curr)
+
+
+                self.gbr = self.model()
+                self.gbr.fit(self.X_tr, self.y_tr)
+
+                self.m, self.r = self.eval_m(self.gbr, self.X_tst, self.y_tst, self.mae, self.r2)
+
+                m_b, r_b = self.eval_m(self.gbr_base, self.X_tst, self.y_tst)
+
+                #self.eval_m(self.gbr, self.X_orig_tst, self.y_orig_tst, self.mae_orig, self.r2_orig)
+                #self.eval_m(self.gbr, self.X_new, self.y_new, self.mae_new, self.r2_new)
+
             if i % int(self.step_hist) == 0:
                 data = pd.DataFrame()
                 _, X_tst, _, y_tst = model_selection.train_test_split(self.X_curr, self.y_curr)
