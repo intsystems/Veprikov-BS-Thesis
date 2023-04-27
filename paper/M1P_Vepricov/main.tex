@@ -20,7 +20,9 @@
 \usepackage{amsthm}
 \usepackage{amssymb}
 \newtheorem{theorem}{Theorem}
-\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem*{theorem-non}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem*{lemma-non}{Lemma}
 
 \title{On the problem of repeated supervised learning}
 
@@ -117,7 +119,9 @@
 
 \section{Main results} \label{Main_results}
 
-    \textbf{Notation:} In this paper we will use the common notations: the $L_1(\mathbb{R}^n)$-norm of function $f$:
+    \textbf{Notations:} In this paper we will use the common notations: 
+    
+    the $L_1(\mathbb{R}^n)$-norm of function $f$:
 
     \begin{equation*}
         \|f\|_1 := \int\limits_{\mathbb{R}^n} |f(x)| dx \quad \text{ and } \quad L_1(\mathbb{R}^n) := \left\{f : \mathbb{R}^n \to \mathbb{R} ~|~ \|f\|_1 < + \infty\right\}
@@ -136,32 +140,12 @@
     Exactly on the basis of Theorem \ref{based} we define $\mathbf{R}$ \eqref{R} in this way.
 
     \begin{theorem}[Assumptions for $\text{D}: \mathbf{R} \to \mathbf{R}$] \label{R_to_R}
+    
         If $\|\text{D}\|_1 = 1, \forall f \in \mathbf{R} \hookrightarrow \text{D}(f)(x) \geq 0$ for almost every $x \in \mathbb{R}^n$, and exists $\text{D}^{-1}$ such that $\|\text{D}^{-1}\|_1 \leq 1$, then $\text{D} : \mathbf{R} \to \mathbf{R}$.
-    \end{theorem}
-    \begin{proof}
-        To begin with, let us note that if $\text{D}: \mathbf{R} \to \mathbf{R}$, then $\|\text{D}\|_1 = 1$, because by definition of operator norm:
-
-        \begin{equation*}
-            \|\text{D}\|_1 \overset{def}{=} \underset{\|f\|_1 = 1}{\sup}\left\{\|\text{D}(f)\|_1\right\}
-        \end{equation*}
-
-        And if $f$ such that $\|f\|_1 = 1$ then $|f| \in \mathbf{R}$ and, because $\text{D}: \mathbf{R} \to \mathbf{R}$, $\|\text{D}(|f|)\|_1 = 1$. But $\|\text{D}\|_1 = 1$ is only a necessary but not a sufficient condition.
-
-        If $\|\text{D}\|_1 = 1$, then $\forall f \in \mathbf{R} \hookrightarrow \text{D}(f) \leq 1$. If $\exists f_0 \in \mathbf{R}$ such that $\|\text{D}(f_0)\|_1 < 1$, then we get a contradiction because
-
-        \begin{equation*}
-            \|D^{-1}\|_1 \overset{def}{=} \underset{\|f\|_1 \neq 0}{\sup}\left\{\dfrac{\|\text{D}^{-1}(f)\|_1}{\|f\|_1}\right\} 
-            \geq \left[f_1 = \text{D}(f_0)\right] \geq
-            \dfrac{\|\text{D}^{-1}(f_1)\|_1}{\|f_1\|_1} = 
-            \dfrac{\|\text{D}^{-1}(\text{D}(f_0))\|_1}{\|\text{D}(f_0)\|_1} = 
-            \dfrac{\|f_0\|_1}{\|\text{D}(f_0)\|_1} = \dfrac{1}{\|\text{D}(f_0)\|_1} > 1
-        \end{equation*}
-
-        But we assume that $\|\text{D}^{-1}\|_1 \leq 1$. So $\forall f \in \mathbf{R} \hookrightarrow \|\text{D}(f)\|_1 = 1$.
-
-        But according to Theorem \ref{R_to_R} to $\text{D} : \mathbf{R} \to \mathbf{R}$ we also need second assumption: $\forall f \in \mathbf{R} \hookrightarrow \text{D}(f)(x) \geq 0$ for almost every $x \in \mathbb{R}^n$.
         
-    \end{proof}
+    \end{theorem}
+
+    The proof of Theorem \ref{R_to_R} is provided in Section \ref{pr_R_to_R}.
 
     \textbf{Discussion of Theorem \ref{R_to_R}}
 
@@ -202,65 +186,7 @@
         where $\phi$ is continuous function with compact support
     \end{theorem}
 
-    \begin{proof}
-        Assume a notation $I_t = \int\limits_{-\infty}^{+\infty} f_t(x) \phi(x) dx$. Then it's fulfilled that
-
-        \begin{equation*}
-            I_t - \phi(0) = \int\limits_{-\infty}^{+\infty} f_t(x) \phi(x) dx - \phi(0) \cdot \int\limits_{-\infty}^{+\infty} f_t(x) dx = \int\limits_{-\infty}^{+\infty} f_t(x) \cdot [\phi(x) - \phi(0)] dx
-        \end{equation*}
-
-        The first equation is fulfilled because $\|f_t\| = 1$.
-        
-        Replacing the variable $y = \psi(t) \cdot x, dy = \psi(t) \cdot dx$ we get
-
-        \begin{equation} \label{tmp2}
-            I_t - \phi(0) = \dfrac{1}{\psi(t)} \cdot \int\limits_{-\infty}^{+\infty} f_t\left(\frac{y}{\psi(t)}\right) \cdot \left[\phi\left(\frac{y}{\psi(t)}\right) - \phi(0)\right] dy
-        \end{equation}
-
-        Split the integral \eqref{tmp2} into 3 parts:
-        
-        \begin{equation*}
-            I_1 := \dfrac{1}{\psi(t)} \cdot \int\limits_{-\infty}^{-A} f_t\left(\frac{y}{\psi(t)}\right) \cdot \left[\phi\left(\frac{y}{\psi(t)}\right) - \phi(0)\right] dy
-        \end{equation*}
-        \begin{equation*}
-            I_2 := \dfrac{1}{\psi(t)} \cdot \int\limits_{-A}^{A} f_t\left(\frac{y}{\psi(t)}\right) \cdot \left[\phi\left(\frac{y}{\psi(t)}\right) - \phi(0)\right] dy
-        \end{equation*}
-        \begin{equation*}
-            I_3 := \dfrac{1}{\psi(t)} \cdot \int\limits_{A}^{+\infty} f_t\left(\frac{y}{\psi(t)}\right) \cdot \left[\phi\left(\frac{y}{\psi(t)}\right) - \phi(0)\right] dy
-        \end{equation*}
-
-        Consider the integrals $I_1$. $\phi$ is continuous function with compact support, so $\phi$ is bounded by some constant $M$, i.e. $\forall x \in \mathbb{R} \hookrightarrow |\phi(x)| \leq M$, so 
-
-        \begin{equation*}
-            \left|I_1\right| \leq \int\limits_{-\infty}^{-A} 2 M \cdot \dfrac{1}{\psi(t)} f_t\left(\frac{y}{\psi(t)}\right) dy \leq \left[\eqref{psi_and_g}\right]
-            \leq \int\limits_{-\infty}^{-A} 2 M \cdot |g(y)| dy 
-        \end{equation*}
-
-        Since $g \in L_1(\mathbb{R})$, there exists some constant $A > 0$ such that $\left|I_1\right| \leq \varepsilon$. Similarly, it can be shown that $\left|I_3\right| \leq \varepsilon$.
-
-        Consider the integral $I_2$. $\phi$ is continuous and $\psi \to +\infty$ \eqref{psi_and_g}, so $\exists~ T \in \mathbb{N}$ such that $\forall y \in [-A; A]$ $\forall t \geq T$ it is fulfilled that 
-
-        \begin{equation*}
-            \left|\frac{y}{\psi(t)} - 0\right| \leq \delta ~\text{ and so }~ \left|\phi\left(\frac{y}{\psi(t)}\right) - \phi(0)\right| \leq \varepsilon
-        \end{equation*}
-
-        So
-
-        \begin{equation*}
-            \left|I_2\right| \leq \varepsilon \cdot \int\limits_{-A}^{A} \dfrac{1}{\psi(t)} f_t\left(\frac{y}{\psi(t)}\right) dy = 
-            \varepsilon \cdot \int\limits_{-A/\psi(t)}^{A/\psi(t)} f_t\left(x\right) dx \leq \varepsilon \cdot \int\limits_{-\infty}^{+\infty} f_t\left(x\right) dx = \varepsilon
-        \end{equation*}
-
-        Finally we get
-
-        \begin{equation*}
-            \forall \varepsilon > 0 ~~ \exists~ T \in \mathbb{N} : \forall t \geq T \hookrightarrow \left|I_t - \phi(0)\right| \leq 
-            \left|I_1\right| + \left|I_2\right| + \left|I_3\right| \leq 3\varepsilon
-        \end{equation*}
-
-        So $f_t(x) \underset{t \to \infty}{\longrightarrow} \delta(x)$ in a weak sense.
-
-    \end{proof}
+    The proof of Theorem \ref{delta} is provided in Section \ref{pr_delta}.
 
     \textbf{Discussion of Theorem \ref{delta}}
 
@@ -301,6 +227,8 @@
     \end{equation*}
 
     So if $\hat{F}_t(x) \to F_{\delta}(x) = \text{sign}(x)$, then $F(x) \to F_{\delta}(x)$
+
+    \textbf{Example of operator $\text{D}$}
     
     Important example of operator $\text{D}$ that translates any function from $\mathbf{R}$ into a $\delta$ function is as follows
 
@@ -310,7 +238,7 @@
 
     Here we take $g(x) = f_0(x)$ and $\psi(t) = t$. 
     
-    In Figure \ref{example1_fig} shown how this operator translates density functions of normal distribution $\mathcal{N}(0, 5)$ and continuous uniform distribution $\mathcal{U}[-2.5, 2.5]$ with $t \to +\infty$:
+    In Figure \ref{example1_fig} shown how this operator translates density functions of normal distribution $\mathcal{N}(0, 5)$ and continuous uniform distribution $\mathcal{U}[-2.5, 2.5]$ with $t \to +\infty$.
 
     \begin{figure}[h!]
         \centering
@@ -319,13 +247,11 @@
         \label{example1_fig}
     \end{figure}
 
-    How we provide several Lemmas based on Theorem \ref{delta}. In In these lemmas we assume that the operator $\text{D}$ has the form
+    Now we provide several Lemmas based on Theorem \ref{delta}. In In these lemmas we assume that the operator $\text{D}$ has the form
 
     \begin{equation} \label{cool_D}
         \text{D}^t(f_0)(x) = \psi(t) \cdot f_0(\psi(t) \cdot x) ~\text{ and }~ \psi(t) \to +\infty
     \end{equation}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 
     \begin{lemma}[Conditions on $\{\text{D}^t\}_{t=0}^{+\infty}$ to be a semigroup] \label{semigroup}
     
@@ -336,6 +262,338 @@
         \end{equation}
         
     \end{lemma}
+
+    \begin{lemma}[Decreasing moments] \label{moments}
+        If $\text{D}$ has the form \eqref{cool_D}, then all $k$-th moments of random variable $\|\mathbf{y} - \mathbf{y_{\text{pred}}}\|$ (if they exist) are decreasing with speed $\psi(t)^{-k}$, i.e. $\nu_k^t = \psi(t)^{-k} \nu_k^0$, where $\nu_k^t$ is a $k$-th moment on a step $t$.
+
+        If $~\exists q \in [1; +\infty]$ such $\{\nu_k^0\}_{k=1}^{+\infty} \in l_q$, then $\{\nu_k^t\}_{k=1}^{+\infty} \in l_1$ and $\{\nu_k^t\}_{k=1}^{+\infty} \underset{t \to \infty}{\overset{l_1}{\longrightarrow}} 0$
+    \end{lemma}
+
+    The proofs of Lemmas \ref{semigroup} and \ref{moments} are provided in Sections \ref{pr_semigroup} and \ref{pr_moments}.
+
+    \textbf{Discussion of Lemmas \ref{semigroup} and \ref{moments}}
+
+    If our system is autonomous, i.e. it does not depend on time, then the operators $\{\text{D}^t\}_{t=0}^{+\infty}$ should form a semigroup, since their application should not depend on the number of step $t$. The condition \eqref{cond_semigroup} means that the function $\psi(t)$ is a power function.
+
+    The Lemma \ref{moments} on moments is interesting from the practical point of view as a condition which is relatively easy to check in the experiment, which we will do in the Section \ref{Experiments}.
+    
+    \begin{theorem}[Inequality on $\|\text{D}\|_q$] \label{ineq_q}
+        Consider 
+        \begin{equation}\label{f_R}
+            f_A(x) = \dfrac{1}{\lambda(A)} \cdot \textbf{1}_{A}(x),
+        \end{equation}
+
+        where $A \subset \mathbb{R}^n$ is arbitrary set of a non-path measure, $\lambda(A)$ -- the measure of a set $A$.
+
+        Then for all $A \subset \mathbb{R}^n :  0 < \lambda(A) < +\infty$ and for all $1 \leq q \leq +\infty$ such that $\text{D}(f_A) \in L_q(\mathbb{R}^n)$ is fulfilled that  
+
+        \begin{equation}\label{int_f_R}
+            \|\text{D}\|_q \geq \int\limits_{A} \text{D}(f_A)(x)dx
+        \end{equation}
+    \end{theorem}
+
+    The proof of Theorem \ref{ineq_q} is provided in Section \ref{pr_ineq_q}.
+        
+    \textbf{Discussion of Theorem \ref{ineq_q}}
+
+    To begin with, note that the result of Theorem \ref{ineq_q} does not depend in any way on whether $\text{D}$ converts $\mathbf{R}$ to $\mathbf{R}$, it is a consequence of Helder's inequality. 
+    
+    If you look at it from a probabilistic point of view (so now $\text{D} : \mathbf{R} \to \mathbf{R}$), then $f_A$ is a distribution density function of vectors uniformly distributed on a set $A$. So, $\int\limits_{A} \text{D}(f_A)(x)dx \leq 1$, i.e. from Theorem \ref{ineq_q} we can only get that $\|\text{D}\|_q \geq 1$. But if $\|\text{D}\|_q \geq 1$, so $\text{D}$ wouldn't be a contraction mapping in $\|\cdot\|_q$, because there always would be function $f \in \mathbf{R}$ such that $\|\text{D}(f)\|_q \geq \|f\|_q$.
+
+    In our experiments we will measure $\hat{F}_t(\sup(A))$ and $\hat{F}_t(\inf(A))$. If $1 \in I_{\varepsilon}[\hat{F}_t(\sup(A))]$ and $0 \in I_{\varepsilon}[\hat{F}_t(\inf(A))]$, where $I_{\varepsilon}$ is confidence interval from \eqref{inter}, then we can say that operator $\text{D}$ can't be a contraction mapping.
+
+\section{Experiments} \label{Experiments}
+
+    \subsection{Experiment Design} \label{design}
+        We consider \footnotemark such formulations of the problem of repeated supervised learning: there is an original data $\textbf{X}$ and a vector of target variables $\mathbf{y}$. In our experiments we assume $\mathbf{X}$ and $\mathbf{y}$ as a regression problem, so $\mathbf{y} = \mathbf{X}  \cdot \mathbf{\theta}$ for some vector $\mathbf{\theta}$. To complicate the model, a normally distributed noise was added to the data.
+        
+        In \textit{hidden loop} experiment \cite{khritankov2021hidden} initially, at round $r = 0$, we select $30\%$ of the original dataset on which our model $H(\mathbf{x}, \theta^0, 0)$ is trained with $80\%$ train size. 
+
+        \footnotetext{All experiments you can see on our \href{https://github.com/intsystems/2023-Project-119}{GitHub}}
+        
+        Then at each step $t$ we randomly select an element $(\mathbf{x^i}, y_i)$ -- the features and target variable of the $i$-th object from the original dataset, and this element does not lie in the initial dataset. Next, we get the prediction $y'_i$ of our model on the element $(\mathbf{x^i}, y_i)$: $y_i'=H(\mathbf{x^i}, \mathbf{\theta}^r, t)$ and sample $z_i \sim \mathcal{N}(y_i', s \cdot \sigma^2)$, where $s$ is an experiment parameter that indicates adherence and $\sigma$ is the model's mean squared error on held-out data. Then we remove 1 element from the active dataset and, with the probability of $p$, we add $(\mathbf{x^i}, z_i)$ to it, and with the probability $(1-p)$ we add the element $(\mathbf{x^i}, y_i)$. We carry out this procedure until we run out of elements that were not initially included in our dataset, so, we make a total of $0.7 \cdot n$ steps, where $n$ is the number of objects in $\textbf{X}$.
+
+        After each $T$ steps round $r$ is increasing: $r = r+1$ and the machine learning model $H(x, \theta^r, t)$ is retrained with $80\%$ train size on active dataset.
+
+        In \textit{hidden sample} experiment at round $r = 0$ model $H(\mathbf{x}, \theta^0, 0)$ is trained on the entire dataset. Then, the experiment scheme is very similar to the hidden loop, but when we take element $(\mathbf{x^i}, y_i)$ from the original dataset, we replace it, using the same scheme as in the hidden loop. The difference between the two approaches is that we can continue the hidden sample experiment for an unlimited number of iterations, whereas the hidden loop experiment can be performed for a maximum of $0.7 \cdot n$ iterations. 
+
+        The size of active dataset will always be a constant: $0.3 \cdot n$ for hidden loop and $n$ for hidden sample experiments, because on each step we remove 1 element and add 1 element to active data. The schemes of the experiments is shown in Figure \ref{ex_set}.
+
+        \begin{figure}[h!]
+            \centering
+            \includegraphics[width=0.49\linewidth]{pictures/Hidden_loop.png}
+            \includegraphics[width=0.49\linewidth]{pictures/Hidden_sample.png}
+            
+            \caption{Hidden loop setup (left) and hidden sample setup (right).}
+            \label{ex_set}
+        \end{figure}
+
+        In this paper we consider linear model, that is solved as Ridge regression with mean squared error loss function. In the formulation of our experiment, we consider $\mathbf{R}$ \eqref{R} as space of density functions of random vectors $(\mathbf{x^i}, y_i)$, where $\mathbf{x^i} \in \textbf{X}$ and $y_i \in \textbf{y}$ -- the features and target variable of the $i$-th object. The operator $\text{D}$ transforms $\mathbf{R}$ at each step $t$, and the distribution of features does not change, because at each step we take new $\mathbf{x^i}_t$ from the original set of features $\textbf{X}$, so only the distribution of the target variable changes. So we can use results from Theorem \ref{delta}. 
+
+    \subsection{Analysis of deviation} \label{exp_1}
+
+        In almost all distributions, decreasing the variance to 0 means that the distribution function takes the form of a delta function, for example in the normal distribution $\mathcal{N}(\mu, \sigma^2)$:
+
+        \begin{equation*}
+            f(x) = \dfrac{1}{\sqrt{2 \pi} \sigma} \exp\left[-\dfrac{1}{2} \cdot \left(\dfrac{x - \mu}{\sigma}\right)^2\right] \quad \text{ and } \quad \sigma^2 = \sigma^2
+        \end{equation*}
+
+        And in continuous uniform distribution $\mathcal{U}[a, b]$:
+        \begin{equation*}
+            f(x) = \dfrac{1}{b-a} \cdot \textbf{1}_{[a;b]} \quad \text{ and } \quad \sigma^2 = \dfrac{1}{12} \cdot (b-a)^2
+        \end{equation*}
+
+        For this reason, every $N$ steps we measured the standard deviation in the $\mathbf{y} - \mathbf{y_{\text{pred}}}$ array, where $\mathbf{y_{\text{pred}}}$ is the predictions of our model on the active dataset. We measured the standard deviation at different \textit{usage} -- the probability with which we take $(\mathbf{x^i}, z_i)$ into the active dataset, and \textit{adherence} -- the parameter by which we multiply $\sigma^2$ when sampling $z_i$. 
+
+        We performed measurements with different noise values in different data: $0.1, 0.3, 1, 3$ and $10$, Figure \ref{3D} only shows the result with noise value $1$, because for the other values the patterns were similar and we chose $1$ as the most representative one. If you want you can look at the rest of the graphs on our Githab in the folder <<figures>>.
+
+        \begin{figure}[h!]
+            \centering
+            \includegraphics[width=0.49\linewidth]{pictures/3D_plot_loop_1.png}
+            \includegraphics[width=0.49\linewidth]{pictures/3D_plot_sample_1.png}
+            
+            \caption{Analysis of deviation. Hidden loop (left), hidden sample (right).}
+            \label{3D}
+        \end{figure}
+
+        As you can see, as a increases \textit{usage} and decreases \textit{adherence} deviation falls, this is because we start adding less noisy data to the active dataset.
+        
+    \subsection{Analysis of $p$-value} \label{exp_2}
+        We check our data for belonging to a normal distribution by counting $p$-value from normal test. Hereinafter we take \textit{usage} and \textit{adherence} \ref{ex_set} based on the previous experiment \ref{exp_1}: $1.0$ and $0.0$, $0.1$ and $0.9$, $1$ and $3$ for all experiments types. In Figure \ref{p_value} presented only $p$-values for \textit{usage} = $1.0$ and \textit{adherence} = $0$.
+
+        \begin{figure}[h!]
+            \centering
+            \includegraphics[width=0.49\linewidth]{pictures/p_loop_1_0.png}
+            \includegraphics[width=0.49\linewidth]{pictures/p_sample_1_0.png}
+            
+            \caption{Analysis of $p$-value. Hidden loop (left), hidden sample (right).}
+            \label{p_value}
+        \end{figure}
+
+\newpage
+        
+        As you can see, $\mathbf{y} - \mathbf{y_{\text{pred}}}$ is not normally distributed for all experiment types. In Figure \ref{hist} shown an example of histograms for \textit{usage} = $1.0$ and \textit{adherence} = $0$.
+
+        \begin{figure}[h!]
+            \centering
+            \includegraphics[width=0.49\linewidth]{pictures/hist_loop_1_0.png}
+            \includegraphics[width=0.49\linewidth]{pictures/hist_sample_1_0.png}
+            
+            \caption{Histograms for some $t$. Hidden loop (left), hidden sample (right).}
+            \label{hist}
+        \end{figure}
+
+        So, $p$-values are low in Figure \ref{p_value} because $\mathbf{y} - \mathbf{y_{\text{pred}}}$ seems to be a mixture of the two distributions, as can be seen in Figure \ref{hist}.
+
+    \subsection{Limit to delta function} \label{exp_3}
+        In this experiment we test the conditions from Theorem \ref{delta}, i.e. we measure $f_t(0)$ and $\int\limits_{-\kappa}^{\kappa}f_t(x)dx$, where $\kappa$ is sufficiently small. So if $f_t(0) \to +\infty$ and $\int\limits_{-\kappa}^{\kappa}f_t(x)dx \to 1$, then we can say that operator $\widetilde{\text{D}}$ converge empirical distribution functions $f_t(x)$ of $\|\mathbf{y} - \mathbf{y_{\text{pred}}}\|$ to delta-function. The results of this experiment are shown in the Figures \ref{delta_loop} and \ref{delta_sample}.
+
+        \begin{figure}[h!]
+            \centering
+            \includegraphics[width=0.49\linewidth]{pictures/ft0_loop_1_0.png}~~
+            ~~\includegraphics[width=0.49\linewidth]{pictures/ft0_loop_0.1_0.9.png}
+            
+            \includegraphics[width=0.49\linewidth]{pictures/ft0_loop_1_3.png}
+            
+            \caption{Hidden loop experiment. \textit{usage} and \textit{adherence} = $1$ and $0$ (left), $0.1$ and $0.9$ (right), $1$ and $3$ (bottom).}
+            \label{delta_loop}
+        \end{figure}
+
+\newpage
+
+        \begin{figure}[h!]
+            \centering
+            \includegraphics[width=0.49\linewidth]{pictures/ft0_sample_1_0.png}~~
+            ~~\includegraphics[width=0.49\linewidth]{pictures/ft0_sample_0.1_0.9.png}
+            
+            \includegraphics[width=0.49\linewidth]{pictures/ft0_sample_1_3.png}
+            
+            \caption{Hidden sample experiment. \textit{usage} and \textit{adherence} = $1$ and $0$ (left), $0.1$ and $0.9$ (right), $1$ and $3$ (bottom).}
+            \label{delta_sample}
+        \end{figure}
+
+        As you can see, for \textit{usage} = $1$ and \textit{adherence} = $3$, the operator $\widetilde{\text{D}}$ translates the distribution density function of $\|\mathbf{y} - \mathbf{y_{\text{pred}}}\|$ to zero function. This is equivalent to the fact that $\psi(t)$ in formula \ref{psi_and_g} tends not to infinity, but to $0$, that is, the data distribution becomes too noisy.
+        
+        When \textit{usage} = $1$ and \textit{adherence} = $0$ we can observe a tendency towards the delta function, i.e. $\psi(t)$ tends to infinity. 
+
+        When \textit{usage} = $0.1$ and \textit{adherence} = $0.9$ distribution of $\|\mathbf{y} - \mathbf{y_{\text{pred}}}\|$ is almost the same, i.e. $\psi(t) \approx \text{const}.$
+
+    \subsection{Semigroup check} \label{exp_4}
+
+        In this experiment we test our system for autonomy, that is, we test the condition \eqref{cond_semigroup} in the Lemma \ref{semigroup}. As noted in the Discussion of Lemma \ref{semigroup}, in order for the $\psi(t)$ function to satisfy the condition \eqref{cond_semigroup}, it is necessary and sufficient that $\psi(t)$ should be a power function. Therefore, in this experiment we plot $\ln(\psi(t))$, and if we get a straight line, then the system is autonomous, and if not, then no. The results of this experiment are shown in the Figure \ref{fig_exp_4}.
+
+        \begin{figure}[h!]
+            \centering
+            \includegraphics[width=0.49\linewidth]{pictures/semigroup_sample_1_0.png}
+            \includegraphics[width=0.49\linewidth]{pictures/semigroup_sample_1_3.png}
+            
+            \includegraphics[width=0.49\linewidth]{pictures/semigroup_loop_1_0.png}
+            
+            \caption{Semigroup check. Hidden sample experiment (left and right) and hidden loop experiment (bottom)}
+            \label{fig_exp_4}
+        \end{figure}
+
+        As you can see, the hidden sample setup is autonomous, since the step in this experiment does not depend on its number $t$, because after every step we return to the initial state.
+
+        The hidden loop setup is not autonomous, since a condition is imposed on the step $t$: it must not be greater than $0.7 \cdot n$.
+
+    \subsection{Decreasing moments} \label{exp_5}
+        In this experiment we test the results from Lemma \ref{moments}. In hidden sample experiment we checked the first term of this Lemma: $\nu_k^t \underset{t \to +\infty}{\longrightarrow} 0$ for all $k \in \mathbb{N}$. We measured only $k = 1, 2, 3, 4$ and $5$. 
+
+        In hidden loop experiment we checked the second term of this Lemma: $\|\{\nu_k^t\}_{k=1}^{\infty}\|_1 = \sum\limits_{k=1}^{+\infty} |\nu_k^t| \underset{t \to +\infty}{\longrightarrow} 0$. In experiment we measured only $\sum\limits_{k=1}^{N} |\nu_k^t|$, because if $k$ is too large, the computer cannot calculate $\nu_k^t$. The results of this experiment are shown in the Figure \ref{fig_exp_5}.
+        
+        \begin{figure}[h!]
+            \centering
+            \includegraphics[width=0.49\linewidth]{pictures/moments_sample_1_0.png}
+            \includegraphics[width=0.49\linewidth]{pictures/moments_loop_1_0.png}
+            
+            \caption{Decreasing moments. Hidden sample experiment (left) and hidden loop experiment (right)}
+            \label{fig_exp_5}
+        \end{figure}
+
+        As you can see, all the conditions of the Lemma \ref{moments} are satisfied, because for \textit{usage} = 1 and \textit{adherence} = 0 the operator $\widetilde{\text{D}}$ transforms the distribution $\|\mathbf{y} - \mathbf{y_{\text{pred}}}\|$ into a delta function.
+
+
+    \section{Analysis and Discussion}
+        TODO
+
+    \section{Conclusion}
+        TODO
+
+    
+\newpage
+
+\bibliographystyle{plain}
+\bibliography{refs}  
+
+\newpage
+
+\begin{center}
+    \LARGE \textbf{Appendix}
+\end{center}
+\normalsize
+
+\appendix
+
+    \section{Proof of Theorem \ref{R_to_R}} \label{pr_R_to_R}
+
+    \begin{theorem-non}
+            If $\|\text{D}\|_1 = 1, \forall f \in \mathbf{R} \hookrightarrow \text{D}(f)(x) \geq 0$ for almost every $x \in \mathbb{R}^n$, and exists $\text{D}^{-1}$ such that $\|\text{D}^{-1}\|_1 \leq 1$, then $\text{D} : \mathbf{R} \to \mathbf{R}$.
+    \end{theorem-non}
+    \begin{proof}
+        To begin with, let us note that if $\text{D}: \mathbf{R} \to \mathbf{R}$, then $\|\text{D}\|_1 = 1$, because by definition of operator norm:
+
+        \begin{equation*}
+            \|\text{D}\|_1 \overset{def}{=} \underset{\|f\|_1 = 1}{\sup}\left\{\|\text{D}(f)\|_1\right\}
+        \end{equation*}
+
+        And if $f$ such that $\|f\|_1 = 1$ then $|f| \in \mathbf{R}$ and, because $\text{D}: \mathbf{R} \to \mathbf{R}$, $\|\text{D}(|f|)\|_1 = 1$. But $\|\text{D}\|_1 = 1$ is only a necessary but not a sufficient condition.
+
+        If $\|\text{D}\|_1 = 1$, then $\forall f \in \mathbf{R} \hookrightarrow \text{D}(f) \leq 1$. If $\exists f_0 \in \mathbf{R}$ such that $\|\text{D}(f_0)\|_1 < 1$, then we get a contradiction because
+
+        \begin{equation*}
+            \|D^{-1}\|_1 \overset{def}{=} \underset{\|f\|_1 \neq 0}{\sup}\left\{\dfrac{\|\text{D}^{-1}(f)\|_1}{\|f\|_1}\right\} 
+            \geq \left[f_1 = \text{D}(f_0)\right] \geq
+            \dfrac{\|\text{D}^{-1}(f_1)\|_1}{\|f_1\|_1} = 
+            \dfrac{\|\text{D}^{-1}(\text{D}(f_0))\|_1}{\|\text{D}(f_0)\|_1} = 
+            \dfrac{\|f_0\|_1}{\|\text{D}(f_0)\|_1} = \dfrac{1}{\|\text{D}(f_0)\|_1} > 1
+        \end{equation*}
+
+        But we assume that $\|\text{D}^{-1}\|_1 \leq 1$. So $\forall f \in \mathbf{R} \hookrightarrow \|\text{D}(f)\|_1 = 1$.
+
+        But according to Theorem \ref{R_to_R} to $\text{D} : \mathbf{R} \to \mathbf{R}$ we also need second assumption: $\forall f \in \mathbf{R} \hookrightarrow \text{D}(f)(x) \geq 0$ for almost every $x \in \mathbb{R}^n$.
+        
+    \end{proof}
+
+    \section{Proof of Theorem \ref{delta} and Lemmas \ref{semigroup}, \ref{moments}}
+
+    \subsection{Theorem \ref{delta}} \label{pr_delta}
+    \begin{theorem-non}
+        If $f_t : \mathbb{R} \to \mathbb{R}$ such that $\forall t \in \mathbb{N} \hookrightarrow  \|f_t\|_1 = 1$, $f_t(x) \geq 0$ in almost every point $x \in \mathbb{R}$ and
+        \begin{equation} \label{psi_and_g_A}
+            \exists \psi : \mathbb{N} \to \mathbb{R} : \psi(t) \underset{t \to +\infty}{\longrightarrow} +\infty ~\text{ and }~
+            \exists g \in L_1(\mathbb{R}) ~\text{ such that }~ \forall t \in \mathbb{N} ~\forall y \in \mathbb{R} \hookrightarrow f_t\left(\dfrac{y}{\psi(t)}\right) \leq \psi(t) \cdot |g(y)|
+        \end{equation}
+
+        Then $f_t(x) \underset{t \to \infty}{\longrightarrow} \delta(x)$ in a weak sense, i.e.
+
+        \begin{equation}
+            \underset{t \to +\infty}{\lim}\left(\int\limits_{-\infty}^{+\infty} f_t(x) \phi(x) dx\right) = \phi(0),
+        \end{equation}
+
+        where $\phi$ is continuous function with compact support
+    \end{theorem-non}
+
+    \begin{proof}
+        Assume a notation $I_t := \int\limits_{-\infty}^{+\infty} f_t(x) \phi(x) dx$. Then it's fulfilled that
+
+        \begin{equation*}
+            I_t - \phi(0) = \int\limits_{-\infty}^{+\infty} f_t(x) \phi(x) dx - \phi(0) \cdot \int\limits_{-\infty}^{+\infty} f_t(x) dx = \int\limits_{-\infty}^{+\infty} f_t(x) \cdot [\phi(x) - \phi(0)] dx
+        \end{equation*}
+
+        The first equation is fulfilled because $\|f_t\| = 1$.
+        
+        Replacing the variable $y = \psi(t) \cdot x, dy = \psi(t) \cdot dx$ we get
+
+        \begin{equation} \label{tmp2_A}
+            I_t - \phi(0) = \dfrac{1}{\psi(t)} \cdot \int\limits_{-\infty}^{+\infty} f_t\left(\frac{y}{\psi(t)}\right) \cdot \left[\phi\left(\frac{y}{\psi(t)}\right) - \phi(0)\right] dy
+        \end{equation}
+
+        Split the integral \eqref{tmp2_A} into 3 parts:
+        
+        \begin{equation*}
+            I_1 := \dfrac{1}{\psi(t)} \cdot \int\limits_{-\infty}^{-A} f_t\left(\frac{y}{\psi(t)}\right) \cdot \left[\phi\left(\frac{y}{\psi(t)}\right) - \phi(0)\right] dy
+        \end{equation*}
+        \begin{equation*}
+            I_2 := \dfrac{1}{\psi(t)} \cdot \int\limits_{-A}^{A} f_t\left(\frac{y}{\psi(t)}\right) \cdot \left[\phi\left(\frac{y}{\psi(t)}\right) - \phi(0)\right] dy
+        \end{equation*}
+        \begin{equation*}
+            I_3 := \dfrac{1}{\psi(t)} \cdot \int\limits_{A}^{+\infty} f_t\left(\frac{y}{\psi(t)}\right) \cdot \left[\phi\left(\frac{y}{\psi(t)}\right) - \phi(0)\right] dy
+        \end{equation*}
+
+        Consider the integrals $I_1$. $\phi$ is continuous function with compact support, so $\phi$ is bounded by some constant $M$, i.e. $\forall x \in \mathbb{R} \hookrightarrow |\phi(x)| \leq M$, so 
+
+        \begin{equation*}
+            \left|I_1\right| \leq \int\limits_{-\infty}^{-A} 2 M \cdot \dfrac{1}{\psi(t)} f_t\left(\frac{y}{\psi(t)}\right) dy \leq \left[\eqref{psi_and_g_A}\right]
+            \leq \int\limits_{-\infty}^{-A} 2 M \cdot |g(y)| dy 
+        \end{equation*}
+
+        Since $g \in L_1(\mathbb{R})$, there exists some constant $A > 0$ such that $\left|I_1\right| \leq \varepsilon$. Similarly, it can be shown that $\left|I_3\right| \leq \varepsilon$.
+
+        Consider the integral $I_2$. $\phi$ is continuous and $\psi \to +\infty$ \eqref{psi_and_g_A}, so $\exists~ T \in \mathbb{N}$ such that $\forall y \in [-A; A]$ $\forall t \geq T$ it is fulfilled that 
+
+        \begin{equation*}
+            \left|\frac{y}{\psi(t)} - 0\right| \leq \delta ~\text{ and so }~ \left|\phi\left(\frac{y}{\psi(t)}\right) - \phi(0)\right| \leq \varepsilon
+        \end{equation*}
+
+        So
+
+        \begin{equation*}
+            \left|I_2\right| \leq \varepsilon \cdot \int\limits_{-A}^{A} \dfrac{1}{\psi(t)} f_t\left(\frac{y}{\psi(t)}\right) dy = 
+            \varepsilon \cdot \int\limits_{-A/\psi(t)}^{A/\psi(t)} f_t\left(x\right) dx \leq \varepsilon \cdot \int\limits_{-\infty}^{+\infty} f_t\left(x\right) dx = \varepsilon
+        \end{equation*}
+
+        Finally we get
+
+        \begin{equation*}
+            \forall \varepsilon > 0 ~~ \exists~ T \in \mathbb{N} : \forall t \geq T \hookrightarrow \left|I_t - \phi(0)\right| \leq 
+            \left|I_1\right| + \left|I_2\right| + \left|I_3\right| \leq 3\varepsilon
+        \end{equation*}
+
+        So $f_t(x) \underset{t \to \infty}{\longrightarrow} \delta(x)$ in a weak sense.
+
+    \end{proof}
+
+    \subsection{Lemma \ref{semigroup}} \label{pr_semigroup}
+    \begin{lemma-non}
+    
+        If $\text{D}$ has the form \eqref{cool_D}, then $\{\text{D}^t\}_{t=0}^{+\infty}$ is a semigroup, i.e. $(\text{D}^{\tau} \circ \text{D}^{\kappa})(f) = \text{D}^{\tau + \kappa}(f) ~\forall \tau, \kappa \in \mathbb{N}$, if and only if 
+
+        \begin{equation}
+            \psi(\tau + \kappa) = \psi(\tau) \cdot \psi(\kappa) ~\forall \tau, \kappa \in \mathbb{N}
+        \end{equation}
+        
+    \end{lemma-non}
 
     \begin{proof}
         \begin{equation*}
@@ -349,11 +607,12 @@
         So, $\{\text{D}^t\}_{t=0}^{+\infty}$ is a semigroup $\Leftrightarrow$ $\psi(\tau + \kappa) = \psi(\tau) \cdot \psi(\kappa) ~\forall \tau, \kappa \in \mathbb{N}$
     \end{proof}
 
-    \begin{lemma}[Decreasing moments] \label{moments}
+    \subsection{Lemma \ref{moments}} \label{pr_moments}
+    \begin{lemma-non}
         If $\text{D}$ has the form \eqref{cool_D}, then all $k$-th moments of random variable $\|\mathbf{y} - \mathbf{y_{\text{pred}}}\|$ (if they exist) are decreasing with speed $\psi(t)^{-k}$, i.e. $\nu_k^t = \psi(t)^{-k} \nu_k^0$, where $\nu_k^t$ is a $k$-th moment on a step $t$.
 
         If $~\exists q \in [1; +\infty]$ such $\{\nu_k^0\}_{k=1}^{+\infty} \in l_q$, then $\{\nu_k^t\}_{k=1}^{+\infty} \in l_1$ and $\{\nu_k^t\}_{k=1}^{+\infty} \underset{t \to \infty}{\overset{l_1}{\longrightarrow}} 0$
-    \end{lemma}
+    \end{lemma-non}
 
     \begin{proof}
         Let's first prove first term. By the definition of $k$-moment we have
@@ -406,28 +665,21 @@
         
     \end{proof}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-    \textbf{Discussion of Lemmas \ref{semigroup} and \ref{moments}}
-
-    If our system is autonomous, i.e. it does not depend on time, then the operators $\{\text{D}^t\}_{t=0}^{+\infty}$ should form a semigroup, since their application should not depend on the number of step $t$. The condition \eqref{cond_semigroup} means that the function $\psi(t)$ is a power function.
-
-    The Lemma \ref{moments} on moments is interesting from the practical point of view as a condition which is relatively easy to check in the experiment, which we will do in the Section \ref{Experiments}.
+    \section{Proof of Theorem \ref{ineq_q}} \label{pr_ineq_q}
+        \begin{theorem-non}
+            Consider 
+            \begin{equation}\label{f_R_A}
+                f_A(x) = \dfrac{1}{\lambda(A)} \cdot \textbf{1}_{A}(x),
+            \end{equation}
     
-    \begin{theorem}[Inequality on $\|\text{D}\|_q$] \label{ineq_q}
-        Consider 
-        \begin{equation}\label{f_R}
-            f_A(x) = \dfrac{1}{\lambda(A)} \cdot \textbf{1}_{A}(x),
-        \end{equation}
-
-        where $A \subset \mathbb{R}^n$ is arbitrary set of a non-path measure, $\lambda(A)$ -- the measure of a set $A$.
-
-        Then for all $A \subset \mathbb{R}^n :  0 < \lambda(A) < +\infty$ and for all $1 \leq q \leq +\infty$ such that $\text{D}(f_A) \in L_q(\mathbb{R}^n)$ is fulfilled that  
-
-        \begin{equation}\label{int_f_R}
-            \|\text{D}\|_q \geq \int\limits_{A} \text{D}(f_A)(x)dx
-        \end{equation}
-    \end{theorem}
+            where $A \subset \mathbb{R}^n$ is arbitrary set of a non-path measure, $\lambda(A)$ -- the measure of a set $A$.
+    
+            Then for all $A \subset \mathbb{R}^n :  0 < \lambda(A) < +\infty$ and for all $1 \leq q \leq +\infty$ such that $\text{D}(f_A) \in L_q(\mathbb{R}^n)$ is fulfilled that  
+    
+            \begin{equation}\label{int_f_R_A}
+                \|\text{D}\|_q \geq \int\limits_{A} \text{D}(f_A)(x)dx
+            \end{equation}
+        \end{theorem-non}
     
     \begin{proof}
         First of all let's calculate $\|f_A\|_p$:
@@ -468,154 +720,8 @@
             \|\text{D}\|_q \geq \int\limits_{A} \text{D}(f_A)(x)dx
         \end{equation*}
     \end{proof}
-        
 
-    \textbf{Discussion of Theorem \ref{ineq_q}}
-
-    To begin with, note that the result of Theorem \ref{ineq_q} does not depend in any way on whether $\text{D}$ converts $\mathbf{R}$ to $\mathbf{R}$, it is a consequence of Helder's inequality. 
     
-    If you look at it from a probabilistic point of view (so now $\text{D} : \mathbf{R} \to \mathbf{R}$), then $f_A$ is a distribution density function of vectors uniformly distributed on a set $A$. So, $\int\limits_{A} \text{D}(f_A)(x)dx \leq 1$, i.e. from Theorem \ref{ineq_q} we can only get that $\|\text{D}\|_q \geq 1$. But if $\|\text{D}\|_q \geq 1$, so $\text{D}$ wouldn't be a contraction mapping in $\|\cdot\|_q$, because there always would be function $f \in \mathbf{R}$ such that $\|\text{D}(f)\|_q \geq \|f\|_q$.
-
-    In our experiments we will measure $\hat{F}_t(\sup(A))$ and $\hat{F}_t(\inf(A))$. If $1 \in I_{\varepsilon}[\hat{F}_t(\sup(A))]$ and $0 \in I_{\varepsilon}[\hat{F}_t(\inf(A))]$, where $I_{\varepsilon}$ is confidence interval from \eqref{inter}, then we can say that operator $\text{D}$ can't be a contraction mapping.
-
-\section{Experiments} \label{Experiments}
-
-    \subsection{Experiment Design} \label{design}
-        We consider \footnotemark such a formulation of the problem of repeated supervised learning: there is an original data $\textbf{X}$ and a vector of target variables $\mathbf{y}$. Initially, at round $r = 0$, we select $30\%$ of the original dataset on which our model $H(\mathbf{x}, \theta^0, 0)$ is trained with $80\%$ train size. 
-
-        \footnotetext{All experiments you can see on our \href{https://github.com/intsystems/2023-Project-119}{GitHub}}
-        
-        Then at each step $t$ we randomly select an element $(\mathbf{x^i}, y_i)$ -- the features and target variable of the $i$-th object from the original dataset, and this element does not lie in the initial dataset. Next, we get the prediction $y'_i$ of our model on the element $(\mathbf{x^i}, y_i)$: $y_i'=H(\mathbf{x^i}, \mathbf{\theta}^r, t)$ and sample $z_i \sim \mathcal{N}(y_i', s \cdot \sigma^2)$, where $s$ is an experiment parameter that indicates adherence and $\sigma$ is the model's mean squared error on held-out data. Then we remove 1 element from the active dataset and, with the probability of $p$, we add $(\mathbf{x^i}, z_i)$ to it, and with the probability $(1-p)$ we add the element $(\mathbf{x^i}, y_i)$. We carry out this procedure until we run out of elements that were not initially included in our dataset, so, we make a total of $0.7 \cdot n$ steps, where $n$ is the number of objects in $\textbf{X}$.
-
-        After each $T$ steps round $r$ is increasing: $r = r+1$ and the machine learning model $H(x, \theta^r, t)$ is retrained with $80\%$ train size on active dataset. 
-
-        The size of active dataset will always be $0.3 \cdot n$, because on each step we remove 1 element and add 1 element to active data. This experiment design is similar to \cite{khritankov2021hidden} were author was detecting hidden feedback loops in machine learning systems. The scheme of the experiment is shown in Figure \ref{ex_set}.
-
-        \begin{figure}[h!]
-            \centering
-            \includegraphics[scale = 0.5]{pictures/Experiment_setup.png}
-            \caption{Experiment setup.}
-            \label{ex_set}
-        \end{figure}
-
-        In this paper we consider linear model, that is solved as Ridge regression with mean squared error loss function. In the formulation of our experiment, we consider $\mathbf{R}$ \eqref{R} as space of density functions of random vectors $(\mathbf{x^i}, y_i)$, where $\mathbf{x^i} \in \textbf{X}$ and $y_i \in \textbf{y}$ -- the features and target variable of the $i$-th object. The operator $\text{D}$ transforms $\mathbf{R}$ at each step $t$, and the distribution of features does not change, because at each step we take new $\mathbf{x^i}_t$ from the original set of features $\textbf{X}$, so only the distribution of the target variable changes. So we can use results from Theorem \ref{delta}. 
-
-    \subsection{First experiment: analysis of deviation} \label{exp_1}
-
-        In almost all distributions, decreasing the variance to 0 means that the distribution function takes the form of a delta function, for example in the normal distribution $\mathcal{N}(\mu, \sigma^2)$:
-
-        \begin{equation*}
-            f(x) = \dfrac{1}{\sqrt{2 \pi} \sigma} \exp\left[-\dfrac{1}{2} \cdot \left(\dfrac{x - \mu}{\sigma}\right)^2\right] \quad \text{ and } \quad \sigma^2 = \sigma^2
-        \end{equation*}
-
-        And in continuous uniform distribution $\mathcal{U}[a, b]$:
-        \begin{equation*}
-            f(x) = \dfrac{1}{b-a} \cdot \textbf{1}_{[a;b]} \quad \text{ and } \quad \sigma^2 = \dfrac{1}{12} \cdot (b-a)^2
-        \end{equation*}
-
-        For this reason, in our experiments every $N$ steps we measured the standard deviation in the $\mathbf{y} - \mathbf{y_{\text{pred}}}$ array, where $\mathbf{y_{\text{pred}}}$ is the predictions of our model on the active dataset. We measured the standard deviation at different \textit{usage} -- the probability with which we take $(\mathbf{x^i}, z_i)$ into the active dataset, and \textit{adherence} -- the parameter by which we multiply $\sigma^2$ when sampling $z_i$.
-        
-        First we consider $\mathbf{X}$ and $\mathbf{y}$ as a regression problem, so $\mathbf{y} = \mathbf{X}  \cdot \mathbf{\theta}$ for some vector $\mathbf{\theta}$. To complicate the model, a normally distributed noise was added to the data. In Figure \ref{3D} there are five 3-dimensional plots for different noise in original data, where on $X$-axis is plotted \textit{usage}, on $Y$-axis is \textit{adherence} and on $Z$ is deviation of $\mathbf{y} - \mathbf{y_{\text{pred}}}$ for test data samples.
-
-        \begin{figure}[h!]
-            \centering
-            \includegraphics[width=0.33\linewidth]{pictures/3D_plot_0.1.png}
-            \includegraphics[width=0.33\linewidth]{pictures/3D_plot_0.3.png}
-            \includegraphics[width=0.33\linewidth]{pictures/3D_plot_1.png}
-            
-            \includegraphics[width=0.33\linewidth]{pictures/3D_plot_3.png}
-            \includegraphics[width=0.33\linewidth]{pictures/3D_plot_10.png}
-            
-            \caption{3D Graphics for different  noise in original data}
-            \label{3D}
-        \end{figure}
-
-        As we can see, the picture for the graphs at noise= $0.3, 1, 3$ and $10$ are very similar to each other, they differ only in the deviation values. This is due to the fact that for higher values of noise it becomes more profitable to add new data than to take the original data, since the noises in them are smaller, that is, with increasing \textit{usage} the deviation will fall.
-
-    \newpage
-
-    \subsection{Second Experiment: analysis of $p$-value} \label{exp_2}
-        In this experiment we check our data for belonging to a normal distribution by counting $p$-value from normal test and we also count the mean and variance of the data $\mathbf{y} - \mathbf{y_{\text{pred}}}$ at each step $t$. We take \textit{usage} and \textit{adherence} \ref{ex_set} based on the previous experiment \ref{exp_1}: $1.0$ and $0.0$, $0.6$ and $0.8$, $0.1$ and $0.9$. The results of this experiment are shown in the Figure \ref{fig_exp_2}.
-
-        \begin{figure}[h!]
-            \centering
-            \includegraphics[width=0.49\linewidth]{pictures/mdp_0.1_0.9.png}~~
-            ~~\includegraphics[width=0.49\linewidth]{pictures/mdp_0.6_0.8.png}
-            
-            \includegraphics[width=0.49\linewidth]{pictures/mdp_1_0.png}
-            
-            \caption{Results of experiment \ref{exp_2} \textit{usage} and \textit{adherence} = $0.1$ and $0.9$ (left), $0.6$ and $0.8$ (right), $1.0$ and $0.0$ (bottom).}
-            \label{fig_exp_2}
-        \end{figure}
-
-        As we can see for small \textit{usage} the deviation of out data does not decrease, but $p$-value for all \textit{usage} and \textit{adherence} is bigger than $0.05$, so we can assume that our data are normally distributed at each step $t$.
-
-    \subsection{Third experiment: limit to delta function} \label{exp_3}
-        In this experiment we test the conditions from Theorem \ref{delta}, i.e. we measure $f_t(0)$ and $\int\limits_{-\kappa}^{\kappa}f_t(x)dx = \hat{F}_t(\kappa) - \hat{F}_t(-\kappa)$, where $\kappa$ is sufficiently small. So if $f_t(0) \to +\infty$ and $1 \in I_{\varepsilon}(\hat{F}_t(\kappa) - \hat{F}_t(-\kappa))$, where $I_{\varepsilon}$ is confidence interval from \eqref{inter}, then we can say that operator $\widetilde{\text{D}}$ converge empirical distribution functions $f_t(x)$ of $\|\mathbf{y} - \mathbf{y_{\text{pred}}}\|$ to delta-function. The results of this experiment are shown in the Figure \ref{fig_exp_3}.
-
-        \begin{figure}[h!]
-            \centering
-            \includegraphics[width=0.49\linewidth]{pictures/f_t0_0.1_0.9.png}~~
-            ~~\includegraphics[width=0.49\linewidth]{pictures/f_t0_0.6_0.8.png}
-            
-            \includegraphics[width=0.49\linewidth]{pictures/f_t0_1_0.png}
-            
-            \caption{Results of experiment \ref{exp_3} \textit{usage} and \textit{adherence} = $0.1$ and $0.9$ (left), $0.6$ and $0.8$ (right), $1.0$ and $0.0$ (bottom).}
-            \label{fig_exp_3}
-        \end{figure}
-
-        As we can see, for small values of \textit{usage} and large values of \textit{adherence}, the operator $\widetilde{\text{D}}$ does not translate the distribution density function of $\|\mathbf{y} - \mathbf{y_{\text{pred}}}\|$ to delta-function. When \textit{usage} = 1 and \textit{adherence} = 0 we can observe a tendency towards the delta function at small $t$, and then exit to a plateau. From results of this experiment we can reject the condition $\psi(t) \underset{t \to +\infty}{\longrightarrow} +\infty$ and consider $\psi(t)$ as an arbitrary function that satisfies the inequality \eqref{psi_and_g}, but then there will be no limit to the delta function when.
-
-    \subsection{Fourth experiment: semigroup check} \label{exp_4}
-
-        In this experiment we test our system for autonomy, that is, we test the condition \eqref{cond_semigroup} in the Lemma \ref{semigroup}. As noted in the Discussion of Lemma \ref{semigroup}, in order for the $\psi(t)$ function to satisfy the condition \eqref{cond_semigroup}, it is necessary and sufficient that $\psi(t)$ should be a power function. Therefore, in this experiment we plot $\ln(\psi(t))$, and if we get a straight line, then the system is autonomous, and if not, then no. The $\psi(t)$ function is taken from the Experiment \ref{exp_3}. The results of this experiment are shown in the Figure \ref{fig_exp_4}.
-
-        \begin{figure}[h!]
-            \centering
-            \includegraphics[width=0.49\linewidth]{pictures/semigroup_0.1_0.9.png}~~
-            ~~\includegraphics[width=0.49\linewidth]{pictures/semigroup_0.6_0.8.png}
-            
-            \includegraphics[width=0.49\linewidth]{pictures/semigroup_1_0.png}
-            
-            \caption{Results of experiment \ref{exp_4} \textit{usage} and \textit{adherence} = $0.1$ and $0.9$ (left), $0.6$ and $0.8$ (right), $1.0$ and $0.0$ (bottom).}
-            \label{fig_exp_4}
-        \end{figure}
-
-        As we can see, our system is not autonomous, since none of the graphs is a straight line.
-
-\newpage
-
-    \subsection{Fifth experiment: decreasing in moments} \label{exp_5}
-        In this experiment we test the results from Lemma \ref{moments}. Based on the Experiment \ref{exp_2} we will approximate our distribution by a normal distribution. Based on Wick's theorem, we can explicitly find the values of moments for the normal distribution if its mathematical expectation is 0:
-
-        \begin{equation} \label{normal_moments}
-            \nu_k = \left\{\begin{array}{ll}
-                 0, \text{ if } k = 2n + 1\\
-                 \\
-                 \sigma^k \cdot (k - 1)!!, \text{ if } k = 2n
-            \end{array} \right.
-        \end{equation}
-
-        The results of this experiment are shown in the Figure \ref{fig_exp_5}.
-        
-        \begin{figure}[h!]
-            \centering
-            \includegraphics[width=0.49\linewidth]{pictures/moments_0.1_0.9.png}~~
-            ~~\includegraphics[width=0.49\linewidth]{pictures/moments_0.6_0.8.png}
-            
-            \includegraphics[width=0.49\linewidth]{pictures/moments_1_0.png}
-            
-            \caption{Results of experiment \ref{exp_5} \textit{usage} and \textit{adherence} = $0.1$ and $0.9$ (left), $0.6$ and $0.8$ (right), $1.0$ and $0.0$ (bottom).}
-            \label{fig_exp_5}
-        \end{figure}
-
-        The moments decrease to zero only if \textit{usage} and \textit{adherence} = $1$ and $0$, because only with this parameters operator $\text{D}$ transforms density distribution functions of $\|\mathbf{y} - \mathbf{y_{\text{pred}}}\|$ to delta function.
     
-
-
-\newpage
-
-\bibliographystyle{plain}
-\bibliography{refs}  
 
 \end{document}

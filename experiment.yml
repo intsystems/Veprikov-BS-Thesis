@@ -46,21 +46,22 @@ hidden_loops: &hidden_loops !BasicStage
   outputs:
     - !path
       path: !line |
-        ./results/hidden_loops_e_1_0/
+        ./results/hidden_samples_eee_1_0/
         ${self.params.experiment.adherence}-
         ${self.params.experiment.usage}-
         ${self.params.experiment.step}
   script:
     - >
-      python ./src/main.py hidden-loop \
+      python ./src/main.py hidden-sample \
                      --model_params "${json(self.params.model_params)}" \
                      --params "${json(self.params.experiment)}" \
                      --folder "${self.outputs[0].path}" \
                      --random_seed 42 \
-                     --run_times 10 \
+                     --run_times 1 \
                      --data "synthetic" \
                      --step_hist 10 \
-                     --noise 0.1
+                     --noise 0.1 \
+                     --N 10001
     - >
       echo "${json(self.params)}" > "${self.outputs[0].path}/params.json"
 
