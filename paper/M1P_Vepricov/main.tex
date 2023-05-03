@@ -92,22 +92,21 @@
 
     Also our problem is connected with dynamical systems, which are studied in \cite{katok1995introduction, nemytskii2015qualitative}, but all these works consider continuous time, and in our work it should be discrete.
 
-    Some authors analyzed Markov processes from the point of view of dynamical systems \cite{tarlowski2017global, vershik2005does}. But in Markov chain the future of the process does not depend on the past. Other authors \cite{varvenne2019rate, pap1996fixed} studied stochastic dynamics systems in general.
+    Some authors analyzed Markov processes from the point of view of dynamical systems \cite{tarlowski2017global, vershik2005does}. However, the authors assumed the fulfillment of the Markov property in these chains, but this is not fulfilled in our statement of the problem. Other authors \cite{varvenne2019rate, pap1996fixed} studied stochastic dynamics systems in general.
 
     An important contribution of this paper is that  we built a mathematical model for continuous machine learning problem, which is novel to the literature.
 
 \section{Problem statement} \label{Problem_statement}
 
-    We consider $\mathbf{R}$ \eqref{R} -- the set of distribution density functions and a mapping $\text{D}$ representing an algorithm for training a model, forming predictions on a test sample and mixing predictions into a training sample, as a result of which the distribution of features changes.
+    We consider $\mathbf{R}$ \eqref{R} -- set of distribution density functions and a mapping $\text{D}$ representing an algorithm for training a model, forming predictions on a test sample and mixing predictions into a training sample, as a result of which the distribution of features changes.
 
-    Let's consider an autonomous (time-independent explicitly) discrete dynamical system. There is a dedicated variable - the step number, which increases, at step $t$ and $t+1$ of which the ratio is fulfilled
+    Let's consider an discrete dynamical system. There is a dedicated variable - the step number, which increases, at step $t$ and $t+1$ of which the ratio is fulfilled
 
     \begin{equation*}
         f_{t+1}(x) = \text{D}(f_t)(x), \quad \text{for}~ \forall x \in \mathbb{R}^n,
     \end{equation*}
 
-    where $\text{D}$ becomes an evolution operator on the space of the specified functions $f$ and the initial function $f_0(x)$ is known. Generally speaking, $\text{D}$ can be an arbitrary mapping, not necessarily smooth or continuous.
-
+    where $\text{D}$ becomes an evolution operator on the space of the specified functions $f$ and the initial function $f_0(x)$ is known. Generally speaking, $\text{D}$ can be an arbitrary mapping, not necessarily smooth or continuous or even autonomous.
 
     In the next section, we provide several conditions on the operator $\text{D}$, in order for it to translate $\mathbf{R}$ into $\mathbf{R}$. It is important, because we consider $\text{D}$ as operator of changing distribution of our dataset, so it has to transform $\mathbf{R}$ into $\mathbf{R}$.
 
@@ -116,7 +115,6 @@
 
     Another contribution of our paper is a condition, under that operator $\text{D}$ wouldn't be a contraction mapping in any norm $\|\cdot\|_q$, i.e. there always would be function $f \in \mathbf{R}$ such that $\|\text{D}(f)\|_q \geq \|f\|_q$. This is also important property, because if $\text{D}$ is a contraction mapping, then it converge any start density distribution $f_0$ to function that is equal to zero in almost every point $x \in \mathbb{R}^n$, i.e. continuous algorithm transform our data to uniform noise.
 
-
 \section{Main results} \label{Main_results}
 
     \textbf{Notations:} In this paper we will use the common notations: 
@@ -124,14 +122,30 @@
     the $L_1(\mathbb{R}^n)$-norm of function $f$:
 
     \begin{equation*}
-        \|f\|_1 := \int\limits_{\mathbb{R}^n} |f(x)| dx \quad \text{ and } \quad L_1(\mathbb{R}^n) := \left\{f : \mathbb{R}^n \to \mathbb{R} ~|~ \|f\|_1 < + \infty\right\}
+        \|f\|_1 := \int\limits_{\mathbb{R}^n} |f(x)| dx ~ \text{ and } ~ L_1(\mathbb{R}^n) := \left\{f : \mathbb{R}^n \to \mathbb{R} ~|~ \|f\|_1 < + \infty\right\}
     \end{equation*}
 
     The $L_{\infty}(\mathbb{R}^n)$-norm of function $f$:
 
     \begin{equation*}
-        \|f\|_{\infty} := \underset{x \in \mathbb{R}^n}{\text{esssup}}\{f(x)\} := \inf\{C \geq 0 ~|~ |f(x)| \leq C \text{ for almost every } x \in \mathbb{R}^n\} \quad \text{ and } \quad L_{\infty}(\mathbb{R}^n) := \left\{f : \mathbb{R}^n \to \mathbb{R} ~|~ \|f\|_{\infty} < + \infty\right\}
+        \|f\|_{\infty} := \underset{x \in \mathbb{R}^n}{\text{esssup}}\{f(x)\} := \inf\{C \geq 0 ~|~ |f(x)| \leq C \text{ for a.e. } x \in \mathbb{R}^n\} ~ \text{ and } ~ L_{\infty}(\mathbb{R}^n) := \left\{f : \mathbb{R}^n \to \mathbb{R} ~|~ \|f\|_{\infty} < + \infty\right\}
     \end{equation*}
+
+\newpage
+
+    The $q$-norm of sequence $\{x_n\}_{m=1}^{\infty}$:
+
+    \begin{equation*}
+        \|\{x_m\}_{m=1}^{\infty}\|_q := \left(\sum\limits_{m=1}^{+\infty}|x_m|^q\right)^{1/q} ~ \text{ and } ~ l_q := \left\{\{x_m\}_{m=1}^{\infty} \subset \mathbb{R}^n ~|~ \|\{x_m\}_{m=1}^{\infty}\|_q < +\infty\right\}
+    \end{equation*}
+
+    The $\infty$-norm of sequence $\{x_n\}_{m=1}^{\infty}$:
+
+    \begin{equation*}
+        \|\{x_m\}_{m=1}^{\infty}\|_{\infty} := \sup_{m \in \mathbb{N}}\{|x_n|\} ~ \text{ and } ~ l_{\infty} := \left\{\{x_m\}_{m=1}^{\infty} \subset \mathbb{R}^n ~|~ \|\{x_m\}_{m=1}^{\infty}\|_{\infty} < +\infty\right\}
+    \end{equation*}
+
+    Now let's provide several theorems to build mathematical model of continuous machine learning problem.
 
     \begin{theorem}[Fact] \label{based}
         If $f: \mathbb{R}^n \to \mathbb{R}$ such that $f(x) \geq 0$ for almost every $x \in \mathbb{R}^n$ and $\|f\|_1 = \int\limits_{\mathbb{R}^n} f(x) dx = 1$, then there exists a random vector $\mathbf{\xi}$, for which $f$ will be a density distribution function.
@@ -191,8 +205,6 @@
     \textbf{Discussion of Theorem \ref{delta}}
 
     If in some step $t$ the model $H(x, \theta, t)$ starts to give good predictions on the training and test samples, then, in the probabilistic formulation, this means that the density function of the distribution of the object-sign vectors becomes similar to the delta function, as the components of the random vector $(\mathbf{x^i}, y_i) \subset (\mathbf{X}, \mathbf{y})$ become linearly dependent. Based on these considerations, we can compare each operator $\text{D}$ to an operator $\widetilde{\text{D}}$, where $\widetilde{\text{D}}$ transforms density distribution functions of random variables $\|\mathbf{y} - \mathbf{y_{\text{pred}}}\|$, where $\mathbf{y_{\text{pred}}} = H(\mathbf{X}, \theta, t)$. Then we can apply Theorem \ref{delta} to understand, when $\widetilde{\text{D}}(f_0)(x) \underset{t \to \infty}{\longrightarrow} \delta(x)$. 
-
-    If $\widetilde{\text{D}}$ has a fixed point, then the distribution of $\|\mathbf{y} - \mathbf{y_{\text{pred}}}\|$ does not change, so algorithm of repeated learning does not improves quality metrics, but in this case operator $\text{D}$ can still have no fixed point. That's why we consider formulas \eqref{DKW} and \eqref{inter} only for $n=1$, because in our experiments we will detect a moment, when MSE error of our algorithm will stop decreasing, so the distribution of $\|\mathbf{y} - \mathbf{y_{\text{pred}}}\|$ will be a fixed point of $\widetilde{\text{D}}$.
 
     Let's analyze formula \eqref{psi_and_g}. 
     
@@ -300,31 +312,29 @@
     
     If you look at it from a probabilistic point of view (so now $\text{D} : \mathbf{R} \to \mathbf{R}$), then $f_A$ is a distribution density function of vectors uniformly distributed on a set $A$. So, $\int\limits_{A} \text{D}(f_A)(x)dx \leq 1$, i.e. from Theorem \ref{ineq_q} we can only get that $\|\text{D}\|_q \geq 1$. But if $\|\text{D}\|_q \geq 1$, so $\text{D}$ wouldn't be a contraction mapping in $\|\cdot\|_q$, because there always would be function $f \in \mathbf{R}$ such that $\|\text{D}(f)\|_q \geq \|f\|_q$.
 
-    In our experiments we will measure $\hat{F}_t(\sup(A))$ and $\hat{F}_t(\inf(A))$. If $1 \in I_{\varepsilon}[\hat{F}_t(\sup(A))]$ and $0 \in I_{\varepsilon}[\hat{F}_t(\inf(A))]$, where $I_{\varepsilon}$ is confidence interval from \eqref{inter}, then we can say that operator $\text{D}$ can't be a contraction mapping.
-
 \section{Experiments} \label{Experiments}
 
     \subsection{Experiment Design} \label{design}
         We consider \footnotemark such formulations of the problem of repeated supervised learning: there is an original data $\textbf{X}$ and a vector of target variables $\mathbf{y}$. In our experiments we assume $\mathbf{X}$ and $\mathbf{y}$ as a regression problem, so $\mathbf{y} = \mathbf{X}  \cdot \mathbf{\theta}$ for some vector $\mathbf{\theta}$. To complicate the model, a normally distributed noise was added to the data.
         
-        In \textit{hidden loop} experiment \cite{khritankov2021hidden} initially, at round $r = 0$, we select $30\%$ of the original dataset on which our model $H(\mathbf{x}, \theta^0, 0)$ is trained with $80\%$ train size. 
+        In \textit{sliding window update} experiment \cite{khritankov2021hidden} initially, at round $r = 0$, we select $30\%$ of the original dataset on which our model $H(\mathbf{x}, \theta^0, 0)$ is trained with $80\%$ train size. 
 
         \footnotetext{All experiments you can see on our \href{https://github.com/intsystems/2023-Project-119}{GitHub}}
         
-        Then at each step $t$ we randomly select an element $(\mathbf{x^i}, y_i)$ -- the features and target variable of the $i$-th object from the original dataset, and this element does not lie in the initial dataset. Next, we get the prediction $y'_i$ of our model on the element $(\mathbf{x^i}, y_i)$: $y_i'=H(\mathbf{x^i}, \mathbf{\theta}^r, t)$ and sample $z_i \sim \mathcal{N}(y_i', s \cdot \sigma^2)$, where $s$ is an experiment parameter that indicates adherence and $\sigma$ is the model's mean squared error on held-out data. Then we remove 1 element from the active dataset and, with the probability of $p$, we add $(\mathbf{x^i}, z_i)$ to it, and with the probability $(1-p)$ we add the element $(\mathbf{x^i}, y_i)$. We carry out this procedure until we run out of elements that were not initially included in our dataset, so, we make a total of $0.7 \cdot n$ steps, where $n$ is the number of objects in $\textbf{X}$.
+        Then at each step $t$ we randomly select an element $(\mathbf{x^i}, y_i)$ -- the features and target variable of the $i$-th object from the original dataset, and this element does not lie in the initial dataset. Next, we get the prediction $y'_i$ of our model on the element $(\mathbf{x^i}, y_i)$: $y_i'=H(\mathbf{x^i}, \mathbf{\theta}^r, t)$ and sample $z_i \sim \mathcal{N}(y_i', s \cdot \sigma^2)$, where $s$ is an experiment parameter that indicates adherence and $\sigma$ is the model's mean squared error on held-out data. Then we remove 1 element from the active dataset and, with the probability of $p$, we add $(\mathbf{x^i}, z_i)$ to it, and with the probability $(1-p)$ we add the element $(\mathbf{x^i}, y_i)$. We carry out this procedure until we run out of elements that were not initially included in our dataset, so, we make a total of $0.7 \cdot n$ steps, where $n$ is the number of objects in $\textbf{X}$. This procedure is called sliding window update.
 
         After each $T$ steps round $r$ is increasing: $r = r+1$ and the machine learning model $H(x, \theta^r, t)$ is retrained with $80\%$ train size on active dataset.
 
-        In \textit{hidden sample} experiment at round $r = 0$ model $H(\mathbf{x}, \theta^0, 0)$ is trained on the entire dataset. Then, the experiment scheme is very similar to the hidden loop, but when we take element $(\mathbf{x^i}, y_i)$ from the original dataset, we replace it, using the same scheme as in the hidden loop. The difference between the two approaches is that we can continue the hidden sample experiment for an unlimited number of iterations, whereas the hidden loop experiment can be performed for a maximum of $0.7 \cdot n$ iterations. 
+        In \textit{sampling update} experiment at round $r = 0$ model $H(\mathbf{x}, \theta^0, 0)$ is trained on the entire dataset. Then, the experiment scheme is very similar to the sliding window, but when we take element $(\mathbf{x^i}, y_i)$ from the original dataset, we replace it, using the same scheme as in the sliding window. The difference between the two approaches is that we can continue the sampling update experiment for an unlimited number of iterations, whereas the sliding window experiment can be performed for a maximum of $0.7 \cdot n$ iterations. 
 
-        The size of active dataset will always be a constant: $0.3 \cdot n$ for hidden loop and $n$ for hidden sample experiments, because on each step we remove 1 element and add 1 element to active data. The schemes of the experiments is shown in Figure \ref{ex_set}.
+        The size of active dataset will always be a constant: $0.3 \cdot n$ for sliding window and $n$ for sampling update, because on each step we remove 1 element and add 1 element to active data. The schemes of the experiments is shown in Figure \ref{ex_set}.
 
         \begin{figure}[h!]
             \centering
             \includegraphics[width=0.49\linewidth]{pictures/Hidden_loop.png}
             \includegraphics[width=0.49\linewidth]{pictures/Hidden_sample.png}
             
-            \caption{Hidden loop setup (left) and hidden sample setup (right).}
+            \caption{Sliding window setup (left) and sampling setup (right).}
             \label{ex_set}
         \end{figure}
 
@@ -352,7 +362,7 @@
             \includegraphics[width=0.49\linewidth]{pictures/3D_plot_loop_1.png}
             \includegraphics[width=0.49\linewidth]{pictures/3D_plot_sample_1.png}
             
-            \caption{Analysis of deviation. Hidden loop (left), hidden sample (right).}
+            \caption{Analysis of deviation. Sliding window (left), sampling update (right).}
             \label{3D}
         \end{figure}
 
@@ -366,7 +376,7 @@
             \includegraphics[width=0.49\linewidth]{pictures/p_loop_1_0.png}
             \includegraphics[width=0.49\linewidth]{pictures/p_sample_1_0.png}
             
-            \caption{Analysis of $p$-value. Hidden loop (left), hidden sample (right).}
+            \caption{Analysis of $p$-value. Sliding window (left), sampling update (right).}
             \label{p_value}
         \end{figure}
 
@@ -379,7 +389,7 @@
             \includegraphics[width=0.49\linewidth]{pictures/hist_loop_1_0.png}
             \includegraphics[width=0.49\linewidth]{pictures/hist_sample_1_0.png}
             
-            \caption{Histograms for some $t$. Hidden loop (left), hidden sample (right).}
+            \caption{Histograms for some $t$. Sliding window (left), sampling update (right).}
             \label{hist}
         \end{figure}
 
@@ -395,7 +405,7 @@
             
             \includegraphics[width=0.49\linewidth]{pictures/ft0_loop_1_3.png}
             
-            \caption{Hidden loop experiment. \textit{usage} and \textit{adherence} = $1$ and $0$ (left), $0.1$ and $0.9$ (right), $1$ and $3$ (bottom).}
+            \caption{Sliding window experiment. \textit{usage} and \textit{adherence} = $1$ and $0$ (left), $0.1$ and $0.9$ (right), $1$ and $3$ (bottom).}
             \label{delta_loop}
         \end{figure}
 
@@ -408,7 +418,7 @@
             
             \includegraphics[width=0.49\linewidth]{pictures/ft0_sample_1_3.png}
             
-            \caption{Hidden sample experiment. \textit{usage} and \textit{adherence} = $1$ and $0$ (left), $0.1$ and $0.9$ (right), $1$ and $3$ (bottom).}
+            \caption{Sampling update experiment. \textit{usage} and \textit{adherence} = $1$ and $0$ (left), $0.1$ and $0.9$ (right), $1$ and $3$ (bottom).}
             \label{delta_sample}
         \end{figure}
 
@@ -420,7 +430,7 @@
 
     \subsection{Semigroup check} \label{exp_4}
 
-        In this experiment we test our system for autonomy, that is, we test the condition \eqref{cond_semigroup} in the Lemma \ref{semigroup}. As noted in the Discussion of Lemma \ref{semigroup}, in order for the $\psi(t)$ function to satisfy the condition \eqref{cond_semigroup}, it is necessary and sufficient that $\psi(t)$ should be a power function. Therefore, in this experiment we plot $\ln(\psi(t))$, and if we get a straight line, then the system is autonomous, and if not, then no. The results of this experiment are shown in the Figure \ref{fig_exp_4}.
+        In this experiment we test our system for autonomy, that is, we test the condition \eqref{cond_semigroup} in the Lemma \ref{semigroup}. As noted in the Discussion of Lemma \ref{semigroup}, in order for the $\psi(t)$ function to satisfy the condition \eqref{cond_semigroup}, it is necessary and sufficient that $\psi(t)$ should be a power function. Therefore, in this experiment we plot $\ln(\psi(t))$, and if we get a straight line, then the system is autonomous, and if not, then no. We measured $r^2$-score -- a statistical measure of how well the regression predictions approximate the real data points. The results of this experiment are shown in the Figure \ref{fig_exp_4}.
 
         \begin{figure}[h!]
             \centering
@@ -429,25 +439,25 @@
             
             \includegraphics[width=0.49\linewidth]{pictures/semigroup_loop_1_0.png}
             
-            \caption{Semigroup check. Hidden sample experiment (left and right) and hidden loop experiment (bottom)}
+            \caption{Semigroup check. Sampling update experiment (left and right) and sliding window experiment (bottom)}
             \label{fig_exp_4}
         \end{figure}
 
-        As you can see, the hidden sample setup is autonomous, since the step in this experiment does not depend on its number $t$, because after every step we return to the initial state.
+        As you can see, the sampling update setup is autonomous, since the step in this experiment does not depend on its number $t$, because after every step we return to the initial state.
 
-        The hidden loop setup is not autonomous, since a condition is imposed on the step $t$: it must not be greater than $0.7 \cdot n$.
+        The sliding window setup is not autonomous, since a condition is imposed on the step $t$: it must not be greater than $0.7 \cdot n$.
 
     \subsection{Decreasing moments} \label{exp_5}
-        In this experiment we test the results from Lemma \ref{moments}. In hidden sample experiment we checked the first term of this Lemma: $\nu_k^t \underset{t \to +\infty}{\longrightarrow} 0$ for all $k \in \mathbb{N}$. We measured only $k = 1, 2, 3, 4$ and $5$. 
+        In this experiment we test the results from Lemma \ref{moments}. In sampling update experiment we checked the first term of this Lemma: $\nu_k^t \underset{t \to +\infty}{\longrightarrow} 0$ for all $k \in \mathbb{N}$. We measured only $k = 1, 2, 3, 4$ and $5$. 
 
-        In hidden loop experiment we checked the second term of this Lemma: $\|\{\nu_k^t\}_{k=1}^{\infty}\|_1 = \sum\limits_{k=1}^{+\infty} |\nu_k^t| \underset{t \to +\infty}{\longrightarrow} 0$. In experiment we measured only $\sum\limits_{k=1}^{N} |\nu_k^t|$, because if $k$ is too large, the computer cannot calculate $\nu_k^t$. The results of this experiment are shown in the Figure \ref{fig_exp_5}.
+        In sliding window experiment we checked the second term of this Lemma: $\|\{\nu_k^t\}_{k=1}^{\infty}\|_1 = \sum\limits_{k=1}^{+\infty} |\nu_k^t| \underset{t \to +\infty}{\longrightarrow} 0$. In experiment we measured only $\sum\limits_{k=1}^{N} |\nu_k^t|$, because if $k$ is too large, the computer cannot calculate $\nu_k^t$. The results of this experiment are shown in the Figure \ref{fig_exp_5}.
         
         \begin{figure}[h!]
             \centering
             \includegraphics[width=0.49\linewidth]{pictures/moments_sample_1_0.png}
             \includegraphics[width=0.49\linewidth]{pictures/moments_loop_1_0.png}
             
-            \caption{Decreasing moments. Hidden sample experiment (left) and hidden loop experiment (right)}
+            \caption{Decreasing moments. Sampling update experiment (left) and sliding window experiment (right)}
             \label{fig_exp_5}
         \end{figure}
 
@@ -455,13 +465,31 @@
 
 
     \section{Analysis and Discussion}
-        TODO
+    
+        We build a mathematical model for continuous machine learning problem, which is novel to the literature. This paper contains 3 Theorems and 2 Lemmas that can be tested by experiments. The main theorem is Theorem \ref{delta}, because it is the one that gives an indication of when an external system begins to positively influence the quality of our model. Theorem \ref{delta} is followed by Lemmas \ref{semigroup} and \ref{moments}, the result of which is very important in practice, because the tendency of $k$-moments to zero and the independence of the system from time are extremely important in practice.
+
+        We developed two techniques to demonstrate the effects of continuous machine learning: sliding window update and sampling update (Figure \ref{ex_set}). Both of these schemes are well suited for any other experiments involving repeated machine learning. As shown in experiment \ref{exp_4}, the sampling update scheme is autonomous, while the sliding window update is not.
+
+        In our experiments, we tested the conditions of Theorem \ref{delta} and its corollaries. Our assumptions turned out to be correct, the practical results agreed with the theory, but we encountered some difficulties in conducting the experiments. Our assumption that the data is normally distributed did not hold, since they are a mixture of two distributions (Figures \ref{p_value}, \ref{hist}). In the experiment, when we measured $f_t(0)$ \ref{exp_3}, at large values of $t$ we can observe biases in the plot (Figures \ref{delta_loop}, \ref{delta_sample}), this can be caused by an error in the approximation of the true distribution density function using the empirical distribution function \eqref{F_approx}. In the autonomy testing experiment \ref{exp_4} in the sample update experiment at \textit{usage} = 1 and \textit{adherence} = 0 the plot is not a straight line from the point $t = 0$, but approximately from the step $t = 1000$ (Figure \ref{fig_exp_4}), so the value of $r^2$-score for this case is smaller than for the case \textit{usage} = 1 and \textit{adherence} = 3. As we already mentioned, when performing the experiment to test Lemma \ref{moments}, we encountered the problem that the capabilities of python3 did not allow us to count moments $\nu_k^t$ at too large a value of $k$, so we limited ourselves to $N = 150$.
+
+        \textbf{Limitations and Validity.}
+        
+        In our experiments, we used only a synthetic dataset consisting of regression data with noise specially added there. We consider linear model, that is solved as Ridge regression with mean squared error loss function. This may affect the conclusion and internal validity of our experiments, since the the others models and datasets were not carried out. Also, for other models, the assumption that the components of the random vector $(\mathbf{x^i}, y_i) \subset (\mathbf{X}, \mathbf{y})$ become linearly dependent when the model $H(x, \theta, t)$ starts to give good predictions on the training and test samples may not be fulfilled, so the transition from $\text{D}$ to $\widetilde{\text{D}}$ may be incorrect and only $\text{D}$ will need to be considered, which is much more difficult to do in practice, because operator $\widetilde{\text{D}}$ translates one-dimensional distribution functions of $\|\mathbf{y} - \mathbf{y_{\text{pred}}}\|$, while operator $\text{D}$ translates $(n+1)$-dimensional distribution density functions of $(\mathbf{X}, \mathbf{y})$.
+        
+        However, the purpose of our research was primarily to build a theoretical basis for continuous machine learning, and our experiments serve as confirmation that the statements of theorems and lemmas can be verified in practice. As you can see, our experiments are consistent with the theory, so they can serve as confirmation of proven facts.
+
+        \textbf{Future research.}
+
+        Future research may include more experiments on real-world datasets and more complicated models. It may also be worth departing from the idea of operators to explain the effects of multiple machine learning, and for example consider the transformation
+        
+        \begin{equation*}
+            f_{t+1}(x) = \text{D}(f_t)(x), \quad \text{for}~ \forall x \in \mathbb{R}^n,
+        \end{equation*}
+        
+        as transformations of random vectors $(\mathbf{X}, \mathbf{y})$, however, in this case there is a theory only for bijective smooth transformations, which strongly restricts the form of the operator $\text{D}$. Also, in the experiments and in the discussion of Theorem \ref{delta}, we did not consider in any way the possibility of finding the function $g$ from \eqref{psi_and_g} in any way, perhaps future studies will be devoted to building the function $g$. 
 
     \section{Conclusion}
         TODO
-
-    
-\newpage
 
 \bibliographystyle{plain}
 \bibliography{refs}  
