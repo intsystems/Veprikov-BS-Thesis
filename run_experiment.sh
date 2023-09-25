@@ -5,9 +5,9 @@ trap 'exit' SIGINT SIGTERM SIGHUP SIGQUIT
 
 for step in 10
 do
-    for usage in 1
+    for usage in 0.1
     do
-        for adherence in 0
+        for adherence in 0.9
         do
           export step &&
           export usage &&

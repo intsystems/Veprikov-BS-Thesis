@@ -46,13 +46,13 @@ hidden_loops: &hidden_loops !BasicStage
   outputs:
     - !path
       path: !line |
-        ./results/hidden_samples_eee_1_0/
+        ./results/hidden_loops_ee_0.1_0.9/
         ${self.params.experiment.adherence}-
         ${self.params.experiment.usage}-
         ${self.params.experiment.step}
   script:
     - >
-      python ./src/main.py hidden-sample \
+      python ./src/main.py hidden-loop \
                      --model_params "${json(self.params.model_params)}" \
                      --params "${json(self.params.experiment)}" \
                      --folder "${self.outputs[0].path}" \
@@ -82,3 +82,9 @@ run_experiment: !GenericPipeline
           adherence: ${env.adherence}
           usage: ${env.usage}
           step: ${env.step}
+
+Figure1_run: !GenericPipeline
+  runs:
+  - !JupyterStage
+    name: my_ipython
+    notebook_pipeline: code/Figure1.my_pipeline
