@@ -9,8 +9,7 @@ We conduct a series of computational experiments using an exemplary supervised l
 
 We running the experiments as show at the figures below 
 
-<img src=".figures/Hidden_loop.png" alt="Sliding window setup" width="300"/>
-<img src=".figures/Hidden_sample.png" alt="Sample update setup" width="350"/>
+<img src="figures/Hidden _loop.png" alt="Sliding window setup" width="400"/> <img src="figures/Hidden_sample.png" alt="Sample update setup" width="400"/>
 
 ## How to run with mldev 
 
